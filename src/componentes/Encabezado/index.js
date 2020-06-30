@@ -37,7 +37,7 @@ export default function Encabezado(props) {
         <Avatar size={20} icon={<UserOutlined />} />
         <Text>Nombre de Usuario</Text>
       </div>
-      <Menu.Item>
+      <Menu.Item key="salir">
         <Text>Salir</Text>
       </Menu.Item>
     </Menu>

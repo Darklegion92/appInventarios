@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./componentes/Login";
 import Encabezado from "./componentes/Encabezado";
 import {
@@ -33,8 +33,22 @@ import "antd/dist/antd.css";
 function App() {
   const [login, setLogin] = useState(true);
   const [seleccion, setSeleccion] = useState(0);
-  console.log(seleccion);
 
+  useEffect(() => {
+    const tokenSession = sessionStorage.getItem("Token");
+    const tokenLocal = localStorage.getItem("Token");
+    if (tokenSession || tokenLocal) {
+      setLogin(false);
+    } else {
+      setLogin(true);
+    }
+  });
+
+  if (seleccion === "salir") {
+    setSeleccion(0);
+    sessionStorage.clear();
+    localStorage.clear();
+  }
   return (
     <>
       {login && <Login ingresar={setLogin} />}

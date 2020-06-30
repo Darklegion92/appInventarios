@@ -10,9 +10,14 @@ const Login = (props) => {
   const { ingresar } = props;
 
   const onFinish = async (values) => {
-    const res = await axios.post(API + "usuarios/login", { values });
+    const res = await axios.post(API + "ingresar", { values });
+    console.log(values);
 
-    if (res.status === 200) ingresar(false);
+    if (res.status === 200) {
+      if (values.remember) localStorage.setItem("Token", res.data);
+      else sessionStorage.setItem("Token", res.data);
+      ingresar(false);
+    }
 
     if (res.status === 201) console.log(res.data.mensaje);
     if (res.status === 501) console.log(res.data.mensaje);
