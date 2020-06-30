@@ -1,0 +1,45 @@
+/*encabezado*/
+
+.facturas-ventas .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+  min-width: 100%;
+}
+.facturas-ventas .encabezado {
+  padding: 10px;
+}
+.facturas-ventas .encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.facturas-ventas {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.facturas-ventas .cuerpo {
+  margin: 20px 50px;
+}
+
+/*pie*/
+
+.facturas-ventas .pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.facturas-ventas .pie > div {
+  display: flex;
+  flex-direction: row;
+}
+.facturas-ventas .pie > div > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10%;
+  font-size: 20px;
+}

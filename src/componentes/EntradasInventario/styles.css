@@ -1,0 +1,43 @@
+/*encabezado*/
+
+.entradas-inventario .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+  min-width: 100%;
+  padding: 10px;
+}
+.entradas-inventario .encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.entradas-inventario {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.entradas-inventario .cuerpo {
+  margin: 20px 50px;
+}
+
+/*pie*/
+
+.entradas-inventario .pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.entradas-inventario .pie > div {
+  display: flex;
+  flex-direction: row;
+}
+.entradas-inventario .pie > div > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10%;
+  font-size: 20px;
+}

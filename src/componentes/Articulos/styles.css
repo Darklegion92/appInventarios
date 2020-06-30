@@ -1,0 +1,43 @@
+/*encabezado*/
+
+.articulos .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid gainsboro;
+  padding: 10px;
+}
+.articulos .encabezado .ant-input-group-wrapper {
+  max-width: 70%;
+  margin-left: 30px;
+}
+.articulos {
+  padding-top: 20px;
+}
+.articulos > h1 {
+  text-align: center;
+}
+/*Cuerpo*/
+
+.articulos .cuerpo {
+  margin: 20px 50px;
+}
+
+/*pie*/
+
+.articulos .pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.articulos .pie > div {
+  display: flex;
+  flex-direction: row;
+}
+.articulos .pie > div > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10%;
+  font-size: 20px;
+}

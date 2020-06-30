@@ -1,0 +1,13 @@
+.form-login{
+  position:absolute; 
+  top: 50%;
+  margin-top: -200px;
+  margin-left: -155px;
+  left: 50%;
+  max-width: 300px;
+  max-height: auto;
+  text-align: center;
+}
+.form-login img{
+  margin-bottom: 30px;
+}

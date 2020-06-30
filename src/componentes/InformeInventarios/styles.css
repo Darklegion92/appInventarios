@@ -1,0 +1,26 @@
+/*encabezado*/
+
+.informe-inventarios .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+}
+.informe-inventarios .encabezado > div > * {
+  margin: 10px;
+}
+.informe-inventarios.encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.informe-inventarios{
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.informe-inventarios.cuerpo {
+  margin: 20px 50px;
+}

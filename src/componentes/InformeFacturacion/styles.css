@@ -1,0 +1,26 @@
+/*encabezado*/
+
+.informe-facturacion .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+}
+.informe-facturacion .encabezado > div > * {
+  margin: 10px;
+}
+.informe-facturacion .encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.informe-facturacion {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.informe-facturacion  .cuerpo{
+    margin: 20px 50px;
+}

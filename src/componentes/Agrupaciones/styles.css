@@ -1,0 +1,14 @@
+.agrupaciones .dos{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.agrupaciones .dos .tabla-datos{
+min-width: 40%;
+}
+.agrupaciones > h1 {
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+

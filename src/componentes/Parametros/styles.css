@@ -1,0 +1,13 @@
+.parametros .dos {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.parametros .dos .tabla-datos {
+  min-width: 40%;
+}
+.parametros > h1 {
+  text-align: center;
+  padding-top: 20px;
+}

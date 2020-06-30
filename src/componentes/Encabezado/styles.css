@@ -1,0 +1,7 @@
+.ant-menu-root{
+    display: flex;
+    justify-content: space-between;
+}
+.ant-menu-root span{
+    margin-left:10px ;
+} 

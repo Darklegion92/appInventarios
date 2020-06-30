@@ -1,0 +1,35 @@
+/*encabezado*/
+
+.dev-ventas .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+  min-width: 100%;
+}
+.dev-ventas .encabezado {
+  padding: 10px;
+}
+.dev-ventas .encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.dev-ventas {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.dev-ventas .cuerpo {
+  margin: 20px 50px;
+}
+
+/*pie*/
+
+.dev-ventas .pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

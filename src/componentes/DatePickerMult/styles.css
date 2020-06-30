@@ -1,0 +1,5 @@
+.datepicket-mult{
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+}

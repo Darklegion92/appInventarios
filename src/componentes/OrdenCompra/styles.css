@@ -1,0 +1,45 @@
+/*encabezado*/
+
+.orden-compras .encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-bottom: solid gainsboro;
+  padding-bottom: 10px;
+  min-width: 100%;
+}
+.orden-compras .encabezado {
+  padding: 10px;
+}
+.orden-compras .encabezado .botones {
+  display: flex;
+  flex-direction: column;
+}
+.orden-compras {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*Cuerpo*/
+
+.orden-compras .cuerpo {
+  margin: 20px 50px;
+}
+
+/*pie*/
+
+.orden-compras .pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.orden-compras .pie > div {
+  display: flex;
+  flex-direction: row;
+}
+.orden-compras .pie > div > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10%;
+  font-size: 20px;
+}
