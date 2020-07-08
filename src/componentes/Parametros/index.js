@@ -1,75 +1,98 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TablaParametros from "../TablaParametros";
 import { Typography } from "antd";
+import axios from "axios";
+import { API } from "../../config/keys";
 import "./styles.css";
+
 const { Title } = Typography;
+
 export default function Parametros() {
-  const dataSource = [
+  const [parametros, setParametros] = useState([]);
+  const cargarDatos = async () => {
+    try {
+      const datostarifasiva = await axios.get(API + "parametros/tarifasiva", {
+        headers: {
+          authorization: sessionStorage.getItem("Token"),
+        },
+      });
+      const datoslistasprecios = await axios.get(
+        API + "parametros/listasprecios",
+        {
+          headers: {
+            authorization: sessionStorage.getItem("Token"),
+          },
+        }
+      );
+      const datosnumeracion = await axios.get(API + "parametros/numeracion", {
+        headers: {
+          authorization: sessionStorage.getItem("Token"),
+        },
+      });
+      setParametros({
+        tarifasiva: datostarifasiva.data,
+        listasprecios: datoslistasprecios.data,
+        numeracion: datosnumeracion.data,
+      });
+    } catch (e) {
+      console.log("alerta error " + e);
+    }
+  };
+  useEffect(() => {
+    cargarDatos();
+  }, []);
+
+  const coltarifasiva = [
     {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
+      title: "Nombre",
+      dataIndex: "nombre",
+      key: "nombre",
     },
     {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
+      title: "Tarifa",
+      dataIndex: "tarifa",
+      key: "tarifa",
     },
   ];
 
-  const columns = [
+  const collistaprecios = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Número",
+      dataIndex: "idlistaprecios",
+      key: "numero",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Nombre",
+      dataIndex: "nombre",
+      key: "nombre",
+    },
+  ];
+
+  const colnumeracion = [
+    {
+      title: "Prefijo",
+      dataIndex: "prefijo",
+      key: "prefijo",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Número",
+      dataIndex: "numero",
+      key: "numero",
+    },
+    {
+      title: "Autorización",
+      dataIndex: "autorizacion",
+      key: "autorizacion",
+    },
+    {
+      title: "Fecha Inicial",
+      dataIndex: "fechaautorizacion",
+      key: "fechainicial",
+    },
+    {
+      title: "Fecha Final",
+      dataIndex: "fechavencimiento",
+      key: "fechafinal",
     },
   ];
 
@@ -79,22 +102,25 @@ export default function Parametros() {
       <div className="dos">
         <TablaParametros
           titulo="TARIFAS IVA"
-          datos={dataSource}
-          columnas={columns}
+          datos={parametros.tarifasiva}
+          columnas={coltarifasiva}
           paginacion={5}
+          tipo="tarifas"
         />
         <TablaParametros
           titulo="LISTA PRECIOS"
-          datos={dataSource}
-          columnas={columns}
+          datos={parametros.listasprecios}
+          columnas={collistaprecios}
           paginacion={5}
+          tipo="precios"
         />
       </div>
       <TablaParametros
         titulo="NUMERACION"
-        datos={dataSource}
-        columnas={columns}
+        datos={parametros.numeracion}
+        columnas={colnumeracion}
         paginacion={15}
+        tipo="numeracion"
       />
     </div>
   );

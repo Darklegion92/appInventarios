@@ -10,7 +10,7 @@ const { Text } = Typography;
 export default function Encabezado(props) {
   const [current, setCurrent] = useState();
 
-  const { datos, setSeleccion } = props;
+  const { datos, setSeleccion, nombre } = props;
 
   const handleClick = (e) => {
     console.log("click ", e);
@@ -35,7 +35,7 @@ export default function Encabezado(props) {
       })}
       <div>
         <Avatar size={20} icon={<UserOutlined />} />
-        <Text>Nombre de Usuario</Text>
+        <Text>{nombre}</Text>
       </div>
       <Menu.Item key="salir">
         <Text>Salir</Text>

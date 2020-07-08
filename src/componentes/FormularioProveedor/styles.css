@@ -1,0 +1,10 @@
+.from-proveedor {
+  display: flex;
+  flex-direction: column;
+}
+
+.from-proveedor > div {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}

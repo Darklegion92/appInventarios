@@ -7,16 +7,19 @@ import "./styles.css";
 
 const { Title } = Typography;
 const Login = (props) => {
-  const { ingresar } = props;
+  const { setLogin, setNombre } = props;
 
   const onFinish = async (values) => {
     const res = await axios.post(API + "ingresar", { values });
-    console.log(values);
 
     if (res.status === 200) {
-      if (values.remember) localStorage.setItem("Token", res.data);
-      else sessionStorage.setItem("Token", res.data);
-      ingresar(false);
+      localStorage.setItem("Nombre", res.data.usuario.asignacion);
+      if (values.remember) {
+        localStorage.setItem("Token", res.data.token);
+        sessionStorage.setItem("Token", res.data.token);
+      } else sessionStorage.setItem("Token", res.data.token);
+      setLogin(false);
+      setNombre(res.data.usuario.asignacion);
     }
 
     if (res.status === 201) console.log(res.data.mensaje);

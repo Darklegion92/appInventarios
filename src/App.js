@@ -32,12 +32,17 @@ import "antd/dist/antd.css";
 
 function App() {
   const [login, setLogin] = useState(true);
-  const [seleccion, setSeleccion] = useState(0);
+  const [seleccion, setSeleccion] = useState("Inventarios-Artículos");
+  const [nombre, setNombre] = useState();
 
   useEffect(() => {
     const tokenSession = sessionStorage.getItem("Token");
     const tokenLocal = localStorage.getItem("Token");
-    if (tokenSession || tokenLocal) {
+    if (tokenSession) {
+      setNombre(localStorage.getItem("Nombre"));
+      setLogin(false);
+    } else if (tokenLocal) {
+      sessionStorage.setItem("Token", tokenLocal);
       setLogin(false);
     } else {
       setLogin(true);
@@ -51,9 +56,10 @@ function App() {
   }
   return (
     <>
-      {login && <Login ingresar={setLogin} />}
+      {login && <Login setLogin={setLogin} setNombre={setNombre} />}
       {!login && (
         <Encabezado
+          nombre={nombre}
           setSeleccion={setSeleccion}
           datos={[
             {

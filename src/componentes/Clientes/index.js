@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Table } from "antd";
 import Encabezado from "./Encabezado";
 import { EditOutlined, FileOutlined, DeleteOutlined } from "@ant-design/icons";
-import Boton from "../Boton";
+
 import "./styles.css";
 const { Title } = Typography;
 
@@ -17,9 +17,7 @@ export default function Clientes() {
         <Table />
       </div>
       <div className="pie">
-        <Boton icon={<EditOutlined />} text="Editar" />
-        <Boton icon={<DeleteOutlined />} text="Inactivar" />
-        <Boton icon={<FileOutlined />} text="Nuevo" />
+       
       </div>
     </div>
   );
