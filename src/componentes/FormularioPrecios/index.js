@@ -13,8 +13,8 @@ const FormularioTarifasIVA = (props) => {
 
   const onChangeNombre = (e) => {
     const { value } = e.target;
-    datos.nombre = value;
-    setNombre(value);
+    datos.nombre = value.toUpperCase();
+    setNombre(value.toUpperCase());
   };
   return (
     <Input

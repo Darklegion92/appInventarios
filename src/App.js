@@ -31,8 +31,8 @@ import "./App.css";
 import "antd/dist/antd.css";
 
 function App() {
-  const [login, setLogin] = useState(true);
-  const [seleccion, setSeleccion] = useState("Inventarios-Artículos");
+  const [login, setLogin] = useState(false);
+  const [seleccion, setSeleccion] = useState(0);
   const [nombre, setNombre] = useState();
 
   useEffect(() => {

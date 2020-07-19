@@ -58,13 +58,13 @@ const FormularioTarifasIVA = (props) => {
   };
   const onChangePrefijo = (e) => {
     const { value } = e.target;
-    datos.prefijo = value;
-    setPrefijo(value);
+    datos.prefijo = value.toUpperCase();
+    setPrefijo(value.toUpperCase());
   };
   const onChangeAutorizacion = (e) => {
     const { value } = e.target;
-    datos.autorizacion = value;
-    setAutorizacion(value);
+    datos.autorizacion = value.toUpperCase();
+    setAutorizacion(value.toUpperCase());
   };
   const onChangeFechaautorizacion = (date, datestring) => {
     datos.fechaautorizacion = datestring;

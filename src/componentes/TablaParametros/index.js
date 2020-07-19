@@ -12,7 +12,7 @@ import "./styles.css";
 const { Title } = Typography;
 
 function TablaParametros(props) {
-  const { titulo, tipo, datos, columnas, paginacion, } = props;
+  const { titulo, tipo, datos, setDatos, columnas, paginacion } = props;
   const [modal, setModal] = useState(false);
   const [datosIva, setDatosIva] = useState();
   const [datosPrecios, setDatosPrecios] = useState();
@@ -41,7 +41,9 @@ function TablaParametros(props) {
           }
         );
       }
-      setDatosIva(res);
+      console.log(res);
+      setDatosIva(res.data);
+      setDatos(res.data);
     }
 
     if (tipo == "precios") {
@@ -67,6 +69,7 @@ function TablaParametros(props) {
         );
 
         setDatosPrecios(res);
+        setDatos(res.data);
       }
     }
 
@@ -100,6 +103,7 @@ function TablaParametros(props) {
         );
 
         setDatosNumeracion(res);
+        setDatos(res.data);
       }
     }
     setModal(false);

@@ -117,11 +117,6 @@ export default function Proveedores() {
   const columns = [
     {
       title: "Tipo Doc",
-      dataIndex: "prefijo",
-      key: "prefijo",
-    },
-    {
-      title: "Tipo Doc",
       dataIndex: "documento",
       key: "documento",
     },

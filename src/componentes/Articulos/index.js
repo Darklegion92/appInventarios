@@ -29,6 +29,7 @@ function Articulos() {
   const [datosTarifa, setDatosTarifa] = useState([]);
   const [datosListas, setDatosListas] = useState([]);
   const [datosPrecios, setDatosPrecios] = useState([]);
+  const [idarticulo, setIdarticulo] = useState();
   const [modal, setModal] = useState(false);
   const [editarArticulo, setEditarArticulo] = useState(false);
 
@@ -50,7 +51,7 @@ function Articulos() {
 
     if (resGrupos.status === 200) {
       let datos = [];
-      resGrupos.data.map((dato) => {
+      resGrupos.data.forEach((dato) => {
         datos.push({ id: dato.idgrupo, dato: dato.nombre });
       });
       setDatosGrupo(datos);
@@ -63,7 +64,7 @@ function Articulos() {
 
     if (resMarcas.status === 200) {
       let datos = [];
-      resMarcas.data.map((dato) => {
+      resMarcas.data.forEach((dato) => {
         datos.push({ id: dato.idmarca, dato: dato.nombre });
       });
       setDatosMarca(datos);
@@ -76,7 +77,7 @@ function Articulos() {
 
     if (resTarifa.status === 200) {
       let datos = [];
-      resTarifa.data.map((dato) => {
+      resTarifa.data.forEach((dato) => {
         datos.push({ id: dato.idtarifaiva, dato: dato.nombre });
       });
       setDatosTarifa(datos);
@@ -99,12 +100,13 @@ function Articulos() {
         {
           descripcion: descripcion,
           codigo: codigo,
-          idtarifaiva: tarifa.value,
-          idgrupo: grupo.value,
-          idsubgrupo: subgrupo.value,
-          idmarca: marca.value,
+          idtarifaiva: tarifa.key,
+          idgrupo: grupo.key,
+          idsubgrupo: subgrupo.key,
+          idmarca: marca.key,
           estado: estado,
           precios: datosPrecios,
+          idarticulo: idarticulo,
         },
         {
           headers: {
@@ -113,6 +115,8 @@ function Articulos() {
         }
       );
       if (res.status === 200) {
+        console.log(res.data);
+
         setDatos(res.data);
       }
     } else {
@@ -121,10 +125,10 @@ function Articulos() {
         {
           descripcion: descripcion,
           codigo: codigo,
-          idtarifaiva: tarifa,
-          idgrupo: grupo,
-          idsubgrupo: subgrupo,
-          idmarca: marca,
+          idtarifaiva: tarifa.value,
+          idgrupo: grupo.value,
+          idsubgrupo: subgrupo.value,
+          idmarca: marca.value,
           estado: estado,
           precios: datosPrecios,
         },
@@ -142,19 +146,24 @@ function Articulos() {
   };
 
   const editarPrecio = (record) => {
-    setLista({ value: record.id, label: record.nombre, key: record.id });
+    setLista({
+      value: record.nombre,
+      label: record.nombre,
+      key: record.idprecio,
+    });
     setValor(record.valor);
   };
 
   const okButtonPrecios = async (editar) => {
     if (editar) {
       let precios = [];
-      await datosPrecios.map((dato) => {
-        if (dato.id === lista.value) {
+      await datosPrecios.forEach((dato) => {
+        if (dato.nombre === lista.value) {
           precios.push({
-            id: dato.id,
+            id: dato.idprecio,
             nombre: dato.nombre,
             valor: valor,
+            editado: true,
           });
         } else {
           precios.push(dato);
@@ -192,7 +201,7 @@ function Articulos() {
 
     if (res.status === 200) {
       let datos = [];
-      res.data.map((dato) => {
+      res.data.forEach((dato) => {
         datos.push({ id: dato.idsubgrupo, dato: dato.nombre });
       });
       setDatosSubgrupo(datos);
@@ -212,6 +221,8 @@ function Articulos() {
     setEstado(record.estado);
     cargarSubgrupos(record.idgrupo);
     cargarPrecios(record.idarticulo);
+    setIdarticulo(record.idarticulo);
+    setEditarArticulo(true);
     setModal(true);
   };
   const handleCancel = () => {
@@ -248,7 +259,7 @@ function Articulos() {
     <div className="articulos">
       <Title>Artículos</Title>
       <div className="encabezado">
-        <Encabezado />
+        <Encabezado setDatosTabla={setDatos} />
       </div>
       <div className="cuerpo">
         <Tabla datos={datos} onClick={editar} />
@@ -284,7 +295,6 @@ function Articulos() {
           onChangeTarifas={onChangeTarifas}
           onChangeEstado={onChangeEstado}
           datosListas={datosListas}
-          datosPrecios={datosPrecios}
           valor={valor}
           setValor={setValor}
           okButton={okButtonPrecios}

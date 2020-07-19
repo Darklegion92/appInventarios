@@ -18,7 +18,6 @@ export default function Encabezado(props) {
     lineHeight: "30px",
   };
   const onSearch = async (dato) => {
-
     let res;
     const Token = sessionStorage.getItem("Token");
     if (value === 2) {
@@ -42,6 +41,8 @@ export default function Encabezado(props) {
     }
     if (res.status === 200) {
       setDatosTabla(res.data);
+    } else if (res.status === 201) {
+      setDatosTabla([]);
     }
   };
 

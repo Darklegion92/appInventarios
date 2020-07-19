@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TablaParametros from "../TablaParametros";
-import { Typography } from "antd";
+import { Typography, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { API } from "../../config/keys";
 import "./styles.css";
@@ -8,34 +9,74 @@ import "./styles.css";
 const { Title } = Typography;
 
 export default function Parametros() {
-  const [parametros, setParametros] = useState([]);
+  //const [parametros, setParametros] = useState([]);
+  const [tarifasiva, setTarifasiva] = useState();
+  const [listasprecios, setListasprecios] = useState();
+  const [numeracion, setNumeracion] = useState();
+  const [tituloAlerta, setTituloAlerta] = useState();
+  const [modalAlerta, setModalAlerta] = useState(false);
+  const [iconoAlerta, setIconoAlerta] = useState();
+  const [msgAlerta, setMsgAlerta] = useState();
+
+  const handleOkAlerta = () => {
+    setModalAlerta(false);
+  };
+
   const cargarDatos = async () => {
+    let datostarifasiva;
+    let datoslistasprecios;
+    let datosnumeracion;
     try {
-      const datostarifasiva = await axios.get(API + "parametros/tarifasiva", {
+      datostarifasiva = await axios.get(API + "parametros/tarifasiva", {
         headers: {
           authorization: sessionStorage.getItem("Token"),
         },
       });
-      const datoslistasprecios = await axios.get(
-        API + "parametros/listasprecios",
-        {
-          headers: {
-            authorization: sessionStorage.getItem("Token"),
-          },
-        }
-      );
-      const datosnumeracion = await axios.get(API + "parametros/numeracion", {
+      datoslistasprecios = await axios.get(API + "parametros/listasprecios", {
         headers: {
           authorization: sessionStorage.getItem("Token"),
         },
       });
-      setParametros({
-        tarifasiva: datostarifasiva.data,
-        listasprecios: datoslistasprecios.data,
-        numeracion: datosnumeracion.data,
+      datosnumeracion = await axios.get(API + "parametros/numeracion", {
+        headers: {
+          authorization: sessionStorage.getItem("Token"),
+        },
       });
+
+      if (datostarifasiva.data.length > 0) setTarifasiva(datostarifasiva.data);
+      if (datoslistasprecios.data.length > 0)
+        setListasprecios(datoslistasprecios.data);
+      if (datosnumeracion.data.length > 0) setNumeracion(datosnumeracion.data);
     } catch (e) {
-      console.log("alerta error " + e);
+      if (datostarifasiva && datostarifasiva.status === 201) {
+        setTituloAlerta("SIN DATOS");
+        setMsgAlerta("Tarifas de IVA no creadas");
+        setIconoAlerta(
+          <ExclamationCircleOutlined
+            style={{
+              fontSize: "70px",
+              color: "orange",
+              "margin-right": "10px",
+            }}
+          />
+        );
+        setModalAlerta(true);
+      } else {
+        setTituloAlerta("ERROR IMPORTANTE");
+        setMsgAlerta("Se ha presentado un error favor ingresar neuvamente");
+        setIconoAlerta(
+          <ExclamationCircleOutlined
+            style={{
+              fontSize: "70px",
+              color: "red",
+              "margin-right": "10px",
+            }}
+          />
+        );
+        setModalAlerta(true);
+      }
+
+      console.log("ERROR INTERNO" + e);
     }
   };
   useEffect(() => {
@@ -102,14 +143,16 @@ export default function Parametros() {
       <div className="dos">
         <TablaParametros
           titulo="TARIFAS IVA"
-          datos={parametros.tarifasiva}
+          datos={tarifasiva}
+          setDatos={setTarifasiva}
           columnas={coltarifasiva}
           paginacion={5}
           tipo="tarifas"
         />
         <TablaParametros
           titulo="LISTA PRECIOS"
-          datos={parametros.listasprecios}
+          datos={listasprecios}
+          setDatos={listasprecios}
           columnas={collistaprecios}
           paginacion={5}
           tipo="precios"
@@ -117,11 +160,27 @@ export default function Parametros() {
       </div>
       <TablaParametros
         titulo="NUMERACION"
-        datos={parametros.numeracion}
+        datos={numeracion}
         columnas={colnumeracion}
+        setDatos={setNumeracion}
         paginacion={15}
         tipo="numeracion"
       />
+      <Modal
+        title={tituloAlerta}
+        visible={modalAlerta}
+        onOk={handleOkAlerta}
+        cancelButtonProps={{ disabled: true }}
+        bodyStyle={{
+          display: "flex",
+          "align-items": "center",
+          "justify-content": "space-evenly",
+          "font-size": "25px",
+        }}
+      >
+        {iconoAlerta}
+        {msgAlerta}
+      </Modal>
     </div>
   );
 }

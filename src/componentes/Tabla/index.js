@@ -6,7 +6,7 @@ import "./styles.css";
 
 const { Title } = Typography;
 
-function TablaParametros(props) {
+function Tabla(props) {
   const {
     titulo,
     datos,
@@ -82,4 +82,4 @@ function TablaParametros(props) {
     </div>
   );
 }
-export default TablaParametros;
+export default Tabla;

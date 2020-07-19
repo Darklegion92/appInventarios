@@ -55,7 +55,6 @@ function FormularioArticulos(props) {
       <div>
         <InputText
           text="Código"
-          size
           onChange={(e) => {
             setCodigo(e.target.value);
           }}
@@ -64,7 +63,6 @@ function FormularioArticulos(props) {
         />
         <InputText
           text="Descripción"
-          size
           onChange={(e) => {
             setDescripcion(e.target.value);
           }}

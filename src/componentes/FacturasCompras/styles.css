@@ -27,19 +27,26 @@
 }
 
 /*pie*/
-
 .facturas-compras .pie {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
 }
+
 .facturas-compras .pie > div {
   display: flex;
-  flex-direction: row;
-}
-.facturas-compras .pie > div > div {
-  display: flex;
   flex-direction: column;
-  margin: 0 10%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.facturas-compras .pie > div > * {
+  margin: 5px;
+}
+
+.facturas-compras .pie .ant-typography {
+  margin-left: 20px;
   font-size: 20px;
+  font-weight: bold;
 }

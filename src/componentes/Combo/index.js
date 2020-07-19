@@ -8,7 +8,7 @@ const { Text } = Typography;
 
 export default function Combo(props) {
   const { datos, titulo, size, valor, onChange } = props;
-
+  console.log(datos);
   return (
     <div className="combo">
       <Text>{titulo}</Text>
@@ -19,9 +19,10 @@ export default function Combo(props) {
         onChange={onChange}
         size="small"
       >
-        {datos.map((dato) => {
-          return <Option key={dato.id}>{dato.dato}</Option>;
-        })}
+        {datos &&
+          datos.map((dato) => {
+            return <Option key={dato.id}>{dato.dato}</Option>;
+          })}
       </Select>
     </div>
   );

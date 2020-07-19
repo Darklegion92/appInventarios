@@ -1,5 +1,5 @@
-.form-login{
-  position:absolute; 
+.form-login {
+  position: absolute;
   top: 50%;
   margin-top: -200px;
   margin-left: -155px;
@@ -8,6 +8,6 @@
   max-height: auto;
   text-align: center;
 }
-.form-login img{
+.form-login img {
   margin-bottom: 30px;
 }

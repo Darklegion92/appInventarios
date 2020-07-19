@@ -1,53 +1,44 @@
 import React, { useState, useEffect } from "react";
 import Combo from "../Combo";
-import InputNumber from "../InputNumber";
 import InputText from "../InputText";
 
 import "./styles.css";
 
 function FormularioProveedor(props) {
-  const { tiposDocumento, regimenes, setDatos, datos } = props;
-
+  const { tiposDocumento, listasPrecios, setDatos, datos } = props;
   const [documento, setDocumento] = useState();
-  const [idtipo_documento, setIdTipo_documento] = useState();
-  const [razonsocial, setRazonSocial] = useState();
   const [nombres, setNombres] = useState();
   const [apellidos, setApellidos] = useState();
   const [direccion, setDireccion] = useState();
   const [telefono, setTelefono] = useState();
-  const [correo, setCorreo] = useState();
-  const [idregimen, setidRegimen] = useState();
-  const [regimen, setRegimen] = useState({
-    key: 0,
-    value: "Seleccione...",
-  });
+  const [idtipo_documento, setIdTipo_documento] = useState();
+  const [idlistaprecios, setIdListaPrecios] = useState();
   const [documentoTipo, setDocumentoTipo] = useState({
     key: 0,
     value: "",
   });
+  const [listaPrecios, setListaPrecios] = useState({
+    key: 0,
+    value: "",
+  });
 
-  let idproveedor;
+  let idcliente;
   useEffect(() => {
     if (datos) {
-      idproveedor = datos.idproveedor;
+      idcliente = datos.idcliente;
       setDocumento(datos.documento);
-      setRazonSocial(datos.razonsocial);
       setNombres(datos.nombres);
       setTelefono(datos.telefono);
-      setCorreo(datos.correo);
       setApellidos(datos.apellidos);
       setDireccion(datos.direccion);
-      setidRegimen(datos.idregimen);
       setIdTipo_documento(datos.idtipo_documento);
       setDocumentoTipo({ key: datos.idtipo_documento, value: datos.prefijo });
-      setRegimen({ key: datos.idregimen, value: datos.nombre });
+      setIdListaPrecios({ key: datos.idlistaprecios, value: datos.nombre });
     } else {
-      idproveedor = "";
+      idcliente = "";
       setDocumento("");
-      setRazonSocial("");
       setNombres("");
       setTelefono("");
-      setCorreo("");
       setApellidos("");
       setDireccion("");
     }
@@ -55,31 +46,28 @@ function FormularioProveedor(props) {
 
   useEffect(() => {
     setDatos({
-      idproveedor,
+      idcliente,
       documento,
       idtipo_documento,
-      razonsocial,
       nombres,
       apellidos,
       direccion,
       telefono,
-      correo,
-      idregimen,
+      idlistaprecios,
     });
   }, [
+    idcliente,
     documento,
     idtipo_documento,
-    razonsocial,
     nombres,
     apellidos,
     direccion,
     telefono,
-    correo,
-    idregimen,
+    idlistaprecios,
   ]);
 
-  const onChangeDocumento = (value) => {
-    if (value) setDocumento(value);
+  const onChangeDocumento = (e) => {
+    if (e) setDocumento(e.target.value.toUpperCase());
   };
 
   const onChangeTipoDocumento = (value) => {
@@ -87,8 +75,9 @@ function FormularioProveedor(props) {
     setDocumentoTipo({ key: value.key, value: value.value });
   };
 
-  const onChangeRazonSocial = (e) => {
-    if (e) setRazonSocial(e.target.value.toUpperCase());
+  const onChangeListaPrecios = (value) => {
+    setIdListaPrecios(value.key);
+    setListaPrecios({ key: value.key, value: value.value });
   };
 
   const onChangeNombres = (e) => {
@@ -103,16 +92,8 @@ function FormularioProveedor(props) {
     if (e) setDireccion(e.target.value.toUpperCase());
   };
 
-  const onChangeTelefono = (value) => {
-    if (value) setTelefono(value);
-  };
-
-  const onChangeCorreo = (e) => {
-    if (e) setCorreo(e.target.value.toUpperCase());
-  };
-  const onChangeRegimen = (value) => {
-    setidRegimen(value.key);
-    setRegimen({ key: value.key, value: value.value });
+  const onChangeTelefono = (e) => {
+    if (e) setTelefono(e.target.value);
   };
 
   return (
@@ -121,21 +102,22 @@ function FormularioProveedor(props) {
         <Combo
           titulo="Tipo"
           datos={tiposDocumento}
-          size={{ width: 60 }}
+          size={{ width: 90 }}
           onChange={onChangeTipoDocumento}
           valor={documentoTipo}
         />
-        <InputNumber
+        <InputText
           text="Documento"
-          size={{ width: 100 }}
+          size={{ width: 250 }}
           onChange={onChangeDocumento}
           value={documento}
         />
-        <InputText
-          text="Razón Social"
-          size={{ width: 300 }}
-          onChange={onChangeRazonSocial}
-          value={razonsocial}
+        <Combo
+          titulo="Lista Precios"
+          datos={listasPrecios}
+          size={{ width: 120 }}
+          onChange={onChangeListaPrecios}
+          valor={listaPrecios}
         />
       </div>
       <div>
@@ -159,26 +141,11 @@ function FormularioProveedor(props) {
           onChange={onChangeDireccion}
           value={direccion}
         />
-        <InputNumber
+        <InputText
           text="Teléfono"
           size={{ width: 150 }}
           onChange={onChangeTelefono}
           value={telefono}
-        />
-      </div>
-      <div>
-        <InputText
-          text="Correo Electrónico"
-          size={{ width: 230 }}
-          onChange={onChangeCorreo}
-          value={correo}
-        />
-        <Combo
-          titulo="Régimen"
-          datos={regimenes}
-          size={{ width: 230 }}
-          onChange={onChangeRegimen}
-          valor={regimen}
         />
       </div>
     </div>
