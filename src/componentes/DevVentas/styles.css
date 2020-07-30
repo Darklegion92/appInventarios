@@ -33,3 +33,72 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
+/*Formato de factura*/
+
+.formato-devolucion>* {
+  font-family:Verdana;
+  color:black;
+}
+.formato-devolucion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  
+}
+.formato-devolucion .encabezado > * {
+  padding: 0;
+  margin: 0;
+}
+
+.formato-devolucion .encabezado> div {
+  font-weight: bold;
+  font-size:15px;
+}
+.formato-devolucion .cuerpo {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+}
+.formato-devolucion .cuerpo > div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items:center;
+}
+
+.formato-devolucion .cuerpo .columnas{
+ padding-top: 10px;
+ margin-top: 10px;
+ margin-bottom: 10px;
+ font-size: 10px;
+ color:black;
+border-top:  0.1px solid black;
+border-bottom:  0.1px solid black;
+}
+.formato-devolucion .cuerpo .fila{
+ font-size: 8px;
+ color:black;
+ word-wrap:break-word;
+ font-weight: none;
+ margin-top: 10px;
+ margin-bottom: 10px;
+}
+.formato-devolucion .pie {
+  padding-top: 100px;
+  margin-top: 10px;
+  border-top:  0.1px solid black;
+  width: 100%;
+}
+.formato-devolucion .pie h4 {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+.formato-devolucion .pie h4 span {
+  font-weight: bold;
+}

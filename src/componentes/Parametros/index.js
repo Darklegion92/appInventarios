@@ -9,7 +9,6 @@ import "./styles.css";
 const { Title } = Typography;
 
 export default function Parametros() {
-  //const [parametros, setParametros] = useState([]);
   const [tarifasiva, setTarifasiva] = useState();
   const [listasprecios, setListasprecios] = useState();
   const [numeracion, setNumeracion] = useState();
@@ -152,7 +151,7 @@ export default function Parametros() {
         <TablaParametros
           titulo="LISTA PRECIOS"
           datos={listasprecios}
-          setDatos={listasprecios}
+          setDatos={setListasprecios}
           columnas={collistaprecios}
           paginacion={5}
           tipo="precios"

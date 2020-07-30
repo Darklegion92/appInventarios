@@ -42,6 +42,7 @@ function Encabezado(props) {
     disabledCantidad,
     disabledNombre,
     setdisabledNombre,
+    alertaError,
   } = props;
 
   const onChangeCodigo = (e) => {
@@ -49,8 +50,13 @@ function Encabezado(props) {
   };
 
   const onChangeDocumento = (e) => {
+    if (nombre) {
+      setdisabledDescripcion(true);
+      setdisabledCodigo(true);
+    }
     if (e.target.value === "") {
       setdisabledNombre(false);
+      setNombre();
     }
     setDocumento(e.target.value.toUpperCase());
   };
@@ -65,6 +71,8 @@ function Encabezado(props) {
     setCantidad(e);
     if (e > 0 && valorUni > 0) {
       setValorTotal(e * valorUni);
+    }else{
+      setValorTotal(0);
     }
   };
 
@@ -130,7 +138,15 @@ function Encabezado(props) {
   };
 
   const onFocusDescripcion = async (e) => {
-    if (codigo) {
+    if (documento && nombre) {
+    } else {
+      alertaError(
+        "Error de validación",
+        "Elija primero un cliente antes de comenzar a facturar"
+      );
+      setdisabledDescripcion(true);
+    }
+    /* if (codigo) {
       const res = await traerArticulo(codigo);
       if (res === true) {
         setdisabledDescripcion(true);
@@ -138,20 +154,40 @@ function Encabezado(props) {
     } else {
       setdisabledDescripcion(false);
       setdisabledCodigo(true);
-    }
+    }*/
   };
   const onBlurCantidad = (e) => {
-  if(valorTotal>0){
-    if (guardarTabla()) {
-      nuevoarticulo();
-  
-    }
-}else{
-setdisabledDescripcion(false);
+    if (valorTotal > 0) {
+      if (guardarTabla()) {
+        nuevoarticulo();
+      }
+    } else {
+      alertaError(
+        "Cantidad o Precio Erroneos",
+        "La Cantidad o El Precio No Pueden Ser 0"
+      );
+      setdisabledDescripcion(false);
       setdisabledCodigo(true);
-}
+    }
   };
 
+  const onFocusCodigo = () => {
+    if (documento && nombre) {
+    } else {
+      alertaError(
+        "Error de validación",
+        "Elija primero un cliente antes de comenzar a facturar"
+      );
+    }
+  };
+
+  const onBlurDescripcion = () => {
+    if (descripcion) {
+    } else {
+      setdisabledCodigo(false);
+      setdisabledDescripcion(true);
+    }
+  };
   const onBlurCodigo = async () => {
     if (codigo) {
       const res = await traerArticulo(codigo);
@@ -231,6 +267,7 @@ setdisabledDescripcion(false);
               size={{ width: "100%" }}
               disabled={disabledCodigo}
               onBlur={onBlurCodigo}
+              onFocus={onFocusCodigo}
             />
           </Col>
           <Col span={10}>
@@ -244,6 +281,7 @@ setdisabledDescripcion(false);
               value={descripcion}
               onFocus={onFocusDescripcion}
               onChange={onChangeDescripcion}
+              onBlur={onBlurDescripcion}
             />
           </Col>
           <Col span={3}>

@@ -3,31 +3,15 @@ import "./styles.css";
 
 export default class FormatoFactura extends React.Component {
   render() {
-    const formato = new Intl.NumberFormat("es-Es");
-    const {
-      datos,
-      total,
-      iva,
-      prefijo,
-      numero,
-      recibido,
-      cambio,
-      documento,
-      nombre,
-    } = this.props;
+    const { datos, nombre, documento } = this.props;
     return (
-      <div className="formato-facturaventa">
+      <div className="formato-devolucion">
         <div className="encabezado">
           <div>PREMIUN SHOP CARNICERIA Y CHARCUTERIA</div>
           <div>NIT. 88215368</div>
           <div>Calle 35 #3-50 SABANA, PATIOS</div>
           <div>Telf. 3125920184</div>
-          <div>DATOS CLIENTE</div>
-          <div>Documento: {documento}</div>
-          <div>Cliente: {nombre}</div>
-          <div>
-            Factura No. {prefijo} {numero}
-          </div>
+          <div>DEVOLUCÓN EN VENTA</div>
         </div>
         <div className="cuerpo">
           <div className="columnas">
@@ -44,28 +28,21 @@ export default class FormatoFactura extends React.Component {
                 <div style={{ width: "40%" }}>{dato.descripcionarticulo}</div>
                 <div style={{ width: "8%" }}>{dato.cantidadarticulo}</div>
                 <div style={{ width: "12%" }}>{dato.valorarticulo}</div>
-                <div style={{ width: "15%" }}>
-                  {formato.format(dato.valortotal)}
-                </div>
+                <div style={{ width: "15%" }}>{dato.total}</div>
               </div>
             );
           })}
         </div>
         <div className="pie">
           <div style={{ fontSize: "12px", "text-align": "left" }}>
-            <span>Total:</span> {formato.format(total)}
+            ______________________________
+          </div>
+          <div style={{ fontSize: "12px", "text-align": "left" }}>{nombre}</div>
+          <div style={{ fontSize: "12px", "text-align": "left" }}>
+            {documento}
           </div>
           <div style={{ fontSize: "12px", "text-align": "left" }}>
-            <span>IVA:</span> {formato.format(iva)}
-          </div>
-          <div style={{ fontSize: "12px", "text-align": "left" }}>
-            <span>Canitdad:</span> {datos.length}
-          </div>
-          <div style={{ fontSize: "12px", "text-align": "left" }}>
-            <span>Recibido:</span> {recibido}
-          </div>
-          <div style={{ fontSize: "12px", "text-align": "left" }}>
-            <span>Cambio:</span> {formato.format(cambio)}
+            Recibi mi devolucón
           </div>
           <div style={{ fontSize: "15px", "font-weight": "bold" }}>
             GRACIAS POR SU COMPRA

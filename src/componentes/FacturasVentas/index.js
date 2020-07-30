@@ -50,6 +50,8 @@ function FacturasVentas() {
   const [modalAlerta, setModalAlerta] = useState(false);
   const [prefijo, setPrefijo] = useState();
   const [disableok, setDisableok] = useState(false);
+  const [cambio, setCambio] = useState(0);
+  const [recibido, setRecibido] = useState(0);
 
   const formato = new Intl.NumberFormat("es-Es");
 
@@ -60,33 +62,40 @@ function FacturasVentas() {
   });
 
   const grabarFactura = async () => {
-    if (totalFactura > 0) {
-      setModalConformacion(true);
-      setDisableok(false);
-      setIconoConfirmacion(
-        <ExclamationCircleOutlined
-          style={{
-            fontSize: "70px",
-            color: "orange",
-            "margin-right": "10px",
-          }}
-        />
-      );
-      setTituloConformacion("GUARDAR FACTURA DE VENTA");
-      setMsgConfirmacion("¿Estas Seguro De Continuar?");
+    if (cambio >= 0) {
+      if (totalFactura > 0) {
+        setModalConformacion(true);
+        setDisableok(false);
+        setIconoConfirmacion(
+          <ExclamationCircleOutlined
+            style={{
+              fontSize: "70px",
+              color: "orange",
+              "margin-right": "10px",
+            }}
+          />
+        );
+        setTituloConformacion("GUARDAR FACTURA DE VENTA");
+        setMsgConfirmacion("¿Estas Seguro De Continuar?");
+      } else {
+        setTituloAlerta("ERROR");
+        setIconoAlerta(
+          <CloseCircleOutlined
+            style={{
+              fontSize: "70px",
+              color: "red",
+              "margin-right": "10px",
+            }}
+          />
+        );
+        setMsgAlerta("La factura no puede estar en 0");
+        setModalAlerta(true);
+      }
     } else {
-      setTituloAlerta("ERROR");
-      setIconoAlerta(
-        <CloseCircleOutlined
-          style={{
-            fontSize: "70px",
-            color: "red",
-            "margin-right": "10px",
-          }}
-        />
+      alertaError(
+        "Cambio Erroneo",
+        "El Cambio No Puede Ser Menor Que El Valor De La Factura"
       );
-      setMsgAlerta("La factura no puede estar en 0");
-      setModalAlerta(true);
     }
   };
 
@@ -117,7 +126,7 @@ function FacturasVentas() {
 
   const handleOkAlerta = () => {
     setModalAlerta(false);
-    imprimir(datosTabla,totalFactura,totalIVA, prefijo, numero);
+    imprimir(datosTabla, totalFactura, totalIVA, prefijo, numero,cambio);
     cancelar();
     cargarDatos();
   };
@@ -128,12 +137,23 @@ function FacturasVentas() {
 
   /*fin handle ok */
 
-  const imprimir = (datos,total,iva,prefijo,numero) => {
+  const imprimir = (datos, total, iva, prefijo, numero, cambio) => {
     setDisableok(true);
     setIconoAlerta(
       <div>
         <div style={{ display: "none" }}>
-          <FormatoFactura ref={componentRef} prefijo= {prefijo} numero={numero} datos={datos} total={total} iva ={iva}/>
+          <FormatoFactura
+            ref={componentRef}
+            prefijo={prefijo}
+            numero={numero}
+            datos={datos}
+            total={total}
+            iva={iva}
+            cambio={cambio}
+            recibido={recibido}
+            documento={documento}
+            cliente={cliente}
+          />
         </div>
         <Button
           onClick={() => {
@@ -197,7 +217,8 @@ function FacturasVentas() {
     settotalFactura(0);
     setArticulos();
     cargarDatos();
-
+    setCambio(0);
+    setRecibido(0)
     setdisabledNombre(false);
     setdisabledDescripcion(true);
     setdisabledCodigo(true);
@@ -205,24 +226,27 @@ function FacturasVentas() {
     setdisabledCantidad(true);
   };
 
-   const eliminarArray =(arr,item)=>{
-     return arr.filter((e)=>{
-	return e !== item;
-})
-   }
+  const eliminarArray = (arr, item) => {
+    return arr.filter((e) => {
+      return e !== item;
+    });
+  };
 
-  const onDoubleClick = (e,record) => {
-    const elim = datosTabla.splice(e, 1); 
-    const d = eliminarArray(datosTabla,record)
+  const onDoubleClick = (e, record) => {
+    const d = eliminarArray(datosTabla, record);
     setDatosTabla(d);
-    let iva =0;
+    let iva = 0;
     let valor = 0;
-    d.forEach((dato)=>{
-      iva = parsefloat(iva)+parsefloat(dato.ivaarticulo)
-      valor = parsefloat(valor)+parsefloat(dato.valortotal)
-    })
+    d.forEach((dato) => {
+      iva = parseFloat(iva) + parseFloat(dato.ivaarticulo);
+      valor = parseFloat(valor) + parseFloat(dato.valortotal);
+    });
+    if (valor === 0) {
+      setdisabledDocumento(false);
+    }
     setTotalIVA(iva);
     settotalFactura(valor);
+    alertaAdvertencia("Se Elimino", "Se Eliminó El Artículo");
   };
 
   const cargarDatos = async () => {
@@ -237,7 +261,39 @@ function FacturasVentas() {
       setPrefijo(datos.data.prefijo);
     }
   };
+  /*Alertas */
+  const alertaError = (titulo, msg) => {
+    setDisableok(true);
+    setTituloAlerta(titulo);
+    setIconoAlerta(
+      <CloseCircleOutlined
+        style={{
+          fontSize: "70px",
+          color: "red",
+          "margin-right": "10px",
+        }}
+      />
+    );
+    setMsgAlerta(msg);
+    setModalAlerta(true);
+  };
 
+  const alertaAdvertencia = (titulo, msg) => {
+    setDisableok(true);
+    setTituloAlerta(titulo);
+    setIconoAlerta(
+      <ExclamationCircleOutlined
+        style={{
+          fontSize: "70px",
+          color: "orange",
+          "margin-right": "10px",
+        }}
+      />
+    );
+    setMsgAlerta(msg);
+    setModalAlerta(true);
+  };
+  /*Fin de Alertas */
   const asignarCodigo = (id) => {
     articulos.forEach((dato) => {
       if (dato.idarticulo == id) {
@@ -341,10 +397,7 @@ function FacturasVentas() {
           descripcionarticulo: articulo.descripcion,
           cantidadarticulo: cantidad,
           valorarticulo: formato.format(valorUni),
-          ivaarticulo: formato.format(
-            cantidad * valorUni -
-              (cantidad * valorUni) / (1 + articulo.tarifa / 100)
-          ),
+          ivaarticulo: 0,
           idtarifaiva: articulo.idtarifaiva,
           valortotal: formato.format(valorTotal),
         },
@@ -381,6 +434,12 @@ function FacturasVentas() {
       });
       return true;
     }
+    alertaError(
+      "Cliente No Encontrado",
+      "El Cliente Con Documento " + documento + " No Existe"
+    );
+    setCliente();
+    setNombre({});
     return false;
   };
 
@@ -402,6 +461,11 @@ function FacturasVentas() {
       setValorUni(datos.data[0].valor);
       return true;
     }
+    alertaError(
+      "Artículo No Encontrado",
+      "El Artículo " + documento + " No Existe"
+    );
+    setDescripcion();
     return false;
   };
 
@@ -446,6 +510,7 @@ function FacturasVentas() {
           disabledDocumento={disabledDocumento}
           disabledCantidad={disabledCantidad}
           disabledNombre={disabledNombre}
+          alertaError={alertaError}
         />
       </div>
       <div className="cuerpo">
@@ -458,6 +523,10 @@ function FacturasVentas() {
           totalIva={totalIVA}
           onClickok={grabarFactura}
           onClickCancel={cancelar}
+          cambio={cambio}
+          setCambio={setCambio}
+          recibido={recibido}
+          setRecibido={setRecibido}
         />
       </div>
       <Modal

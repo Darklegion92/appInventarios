@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Login from "./componentes/Login";
+import { useReactToPrint } from "react-to-print";
+import { Modal, Button } from "antd";
+import axios from "axios";
+import InputNumber from "./componentes/InputNumber";
 import Encabezado from "./componentes/Encabezado";
+import FormatoCierre from "./FormatoCierre";
 import {
   ContainerOutlined,
   ShopOutlined,
@@ -26,7 +31,7 @@ import InformeInventarios from "./componentes/InformeInventarios";
 import Clientes from "./componentes/Clientes";
 import InformeCRM from "./componentes/InformeCRM";
 import Index from "./componentes/Index";
-
+import { API } from "./config/keys";
 import "./App.css";
 import "antd/dist/antd.css";
 
@@ -34,6 +39,38 @@ function App() {
   const [login, setLogin] = useState(false);
   const [seleccion, setSeleccion] = useState(0);
   const [nombre, setNombre] = useState();
+  const [modalCierre, setModalCierre] = useState(true);
+  const [recaudo, setRecaudo] = useState(0);
+  const [ventas, setVentas] = useState(0);
+  const [modalAlerta, setModalAlerta] = useState(false);
+  const componentRef = useRef();
+
+  const handleOk = async () => {
+    const ventas = await traerVentas();
+    setVentas(ventas);
+    setModalCierre(false);
+    setModalAlerta(true);
+  };
+
+  const traerVentas = async () => {
+    const ventas = await axios.get(API + "facturasventa/ventasdia");
+    if (ventas.status === 200) {
+      return ventas.data[0].total;
+    } else {
+      return 0;
+    }
+  };
+  const onChange = (e) => {
+    setRecaudo(e);
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const handleCancel = () => {
+    setModalCierre(false);
+  };
 
   useEffect(() => {
     const tokenSession = sessionStorage.getItem("Token");
@@ -64,7 +101,13 @@ function App() {
           datos={[
             {
               titulo: "Facturación",
-              lista: ["Facturar", "Devoluciones", "Informes", "Parámetros"],
+              lista: [
+                "Facturar",
+                "Devoluciones",
+                "Informes",
+                "Parámetros",
+                "Cierre Diario",
+              ],
               icon: <ShoppingCartOutlined />,
             },
             {
@@ -108,6 +151,22 @@ function App() {
       {!login && seleccion === "Facturación-Devoluciones" && <DevVentas />}
       {!login && seleccion === "Facturación-Informes" && <InformeFacturacion />}
       {!login && seleccion === "Facturación-Parámetros" && <Parametros />}
+      {!login && seleccion === "Facturación-Cierre Diario" && (
+        <Modal
+          title="Cierre Facturación"
+          visible={modalCierre}
+          centered
+          onOk={handleOk}
+          onCancel={handleCancel}
+          style={{ width: 1000 }}
+        >
+          <InputNumber
+            text={"Digite Cantidad De Dinero Recaudado"}
+            value={recaudo}
+            onChange={onChange}
+          />
+        </Modal>
+      )}
       {!login && seleccion === "Compras-Facturar" && <FacturasCompras />}
       {!login && seleccion === "Compras-Devoluciones" && <DevCompras />}
       {!login && seleccion === "Compras-Orden de Pedido" && <OrdenCompra />}
@@ -121,6 +180,38 @@ function App() {
       {!login && seleccion === "Inventarios-Informes" && <InformeInventarios />}
       {!login && seleccion === "CRM-Clientes" && <Clientes />}
       {!login && seleccion === "CRM-Informes" && <InformeCRM />}
+
+      <Modal
+        title="Imprimir Cierre"
+        visible={modalAlerta}
+        okButtonProps={{ disabled: true }}
+        cancelButtonProps={{ disabled: true }}
+        bodyStyle={{
+          display: "flex",
+          "align-items": "center",
+          "justify-content": "space-evenly",
+          "font-size": "25px",
+        }}
+      >
+        <div>
+          <div style={{ display: "none" }}>
+            <FormatoCierre
+              ref={componentRef}
+              ventas={ventas}
+              recaudo={recaudo}
+              cuadre={recaudo - ventas}
+            />
+          </div>
+          <Button
+            onClick={() => {
+              handlePrint();
+              setModalAlerta(false);
+            }}
+          >
+            IMPRIMIR
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }

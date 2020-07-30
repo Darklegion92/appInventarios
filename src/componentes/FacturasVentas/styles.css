@@ -79,6 +79,7 @@
 .formato-facturaventa .cuerpo {
   display: flex;
   flex-direction: column;
+  min-width: 100%;
 }
 .formato-facturaventa .cuerpo > div{
   display: flex;

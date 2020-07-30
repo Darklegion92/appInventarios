@@ -4,7 +4,7 @@ import { Input, Col, Row, Typography } from "antd";
 const { Text } = Typography;
 const { Search } = Input;
 
-export default function Encabezado() {
+function Encabezado({ onSearch, onChange, nombre, documento, disabledNumero }) {
   return (
     <div>
       <Input.Group>
@@ -13,19 +13,23 @@ export default function Encabezado() {
             <Text>Factura</Text>
             <Search
               placeholder="Factura"
-              onSearch={(value) => console.log(value)}
+              onSearch={onSearch}
+              onChange={onChange}
+              disabled={disabledNumero}
             />
           </Col>
           <Col span={4}>
             <Text>Documento</Text>
-            <Input defaultValue="" disabled />
+            <Input value={documento} disabled />
           </Col>
           <Col span={14}>
             <Text>Nombre</Text>
-            <Input defaultValue="" disabled />
+            <Input value={nombre} disabled />
           </Col>
         </Row>
       </Input.Group>
     </div>
   );
 }
+
+export default Encabezado;

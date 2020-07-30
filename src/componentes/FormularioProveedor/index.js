@@ -6,25 +6,34 @@ import InputText from "../InputText";
 import "./styles.css";
 
 function FormularioProveedor(props) {
-  const { tiposDocumento, regimenes, setDatos, datos } = props;
-
-  const [documento, setDocumento] = useState();
-  const [idtipo_documento, setIdTipo_documento] = useState();
-  const [razonsocial, setRazonSocial] = useState();
-  const [nombres, setNombres] = useState();
-  const [apellidos, setApellidos] = useState();
-  const [direccion, setDireccion] = useState();
-  const [telefono, setTelefono] = useState();
-  const [correo, setCorreo] = useState();
-  const [idregimen, setidRegimen] = useState();
-  const [regimen, setRegimen] = useState({
-    key: 0,
-    value: "Seleccione...",
-  });
-  const [documentoTipo, setDocumentoTipo] = useState({
-    key: 0,
-    value: "",
-  });
+  const {
+    tiposDocumento,
+    regimenes,
+    setDatos,
+    datos,
+    documento,
+    idtipo_documento,
+    razonsocial,
+    nombres,
+    apellidos,
+    direccion,
+    telefono,
+    correo,
+    idregimen,
+    regimen,
+    documentoTipo,
+    setDocumento,
+    setRazonSocial,
+    setNombres,
+    setTelefono,
+    setCorreo,
+    setApellidos,
+    setDireccion,
+    setidRegimen,
+    setIdTipo_documento,
+    setDocumentoTipo,
+    setRegimen,
+  } = props;
 
   let idproveedor;
   useEffect(() => {

@@ -18,7 +18,23 @@ export default function Proveedores() {
   const [datosEditar, setDatosEditar] = useState();
   const [datosTabla, setDatosTabla] = useState();
   const [editar, setEditar] = useState(false);
-
+  const [documento, setDocumento] = useState();
+  const [idtipo_documento, setIdTipo_documento] = useState();
+  const [razonsocial, setRazonSocial] = useState();
+  const [nombres, setNombres] = useState();
+  const [apellidos, setApellidos] = useState();
+  const [direccion, setDireccion] = useState();
+  const [telefono, setTelefono] = useState();
+  const [correo, setCorreo] = useState();
+  const [idregimen, setidRegimen] = useState();
+  const [regimen, setRegimen] = useState({
+    key: 0,
+    value: "Seleccione...",
+  });
+  const [documentoTipo, setDocumentoTipo] = useState({
+    key: 0,
+    value: "",
+  });
   const cargarDatos = async () => {
     try {
       const datosTipoDocumento = await axios.get(
@@ -72,19 +88,20 @@ export default function Proveedores() {
     setEditar(false);
     setModal(true);
   };
-  const handleOk = (e) => {
-    datosEnvio.idproveedor = datosEditar.idproveedor;
+  const handleOk = async (e) => {
     if (editar) {
-      const res = axios.put(API + "proveedores/editar", datosEnvio, {
+      datosEnvio.idproveedor = datosEditar.idproveedor;
+      const res = await axios.put(API + "proveedores/editar", datosEnvio, {
         headers: {
           authorization: sessionStorage.getItem("Token"),
         },
       });
       if (res.status === 200) {
         setDatosTabla(res.data);
+        limpiarDatos();
       }
     } else {
-      const res = axios.post(
+      const res = await axios.post(
         API + "proveedores/crear",
         {
           idtipo_documento: datosEnvio.idtipo_documento,
@@ -105,15 +122,38 @@ export default function Proveedores() {
       );
       if (res.status === 200) {
         setDatosTabla(res.data);
-        setDatosEditar([]);
+        limpiarDatos();
       }
     }
-
-    setModal(false);
   };
   const handleCancel = (e) => {
-    setModal(false);
+    limpiarDatos();
   };
+
+  const limpiarDatos = () => {
+    setModal(false);
+    setRegimenes();
+    setDatosEnvio({});
+    setDatosEditar({});
+    setDocumento();
+    setIdTipo_documento();
+    setRazonSocial();
+    setNombres();
+    setApellidos();
+    setDireccion();
+    setTelefono();
+    setCorreo();
+    setidRegimen();
+    setRegimen({
+      key: 0,
+      value: "Seleccione...",
+    });
+    setDocumentoTipo({
+      key: 0,
+      value: "",
+    });
+  };
+
   const columns = [
     {
       title: "Tipo Doc",
@@ -197,6 +237,28 @@ export default function Proveedores() {
           tiposDocumento={tiposDocumento}
           setDatos={setDatosEnvio}
           datos={datosEditar}
+          documento={documento}
+          idtipo_documento={idtipo_documento}
+          razonsocial={razonsocial}
+          nombres={nombres}
+          apellidos={apellidos}
+          direccion={direccion}
+          telefono={telefono}
+          correo={correo}
+          idregimen={idregimen}
+          regimen={regimen}
+          documentoTipo={documentoTipo}
+          setDocumento={setDocumento}
+          setRazonSocial={setRazonSocial}
+          setNombres={setNombres}
+          setTelefono={setTelefono}
+          setCorreo={setCorreo}
+          setApellidos={setApellidos}
+          setDireccion={setDireccion}
+          setidRegimen={setidRegimen}
+          setIdTipo_documento={setIdTipo_documento}
+          setDocumentoTipo={setDocumentoTipo}
+          setRegimen={setRegimen}
         />
       </Modal>
     </div>

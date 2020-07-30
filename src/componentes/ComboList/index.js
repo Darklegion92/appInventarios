@@ -17,6 +17,7 @@ export default function ComboList(props) {
     disabled,
     onSearch,
     onFocus,
+    onBlur,
   } = props;
 
   return (
@@ -35,6 +36,7 @@ export default function ComboList(props) {
         onChange={onChange}
         size="small"
         onSearch={onSearch}
+        onBlur={onBlur}
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }

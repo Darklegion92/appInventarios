@@ -1,12 +1,10 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Typography, Button } from "antd";
 import InputNumber from "../InputNumber";
 
 const { Text } = Typography;
 
 function Pie(props) {
-  const [valorUni,setValorUni] = useState();
-  const [vuelto,setVuelto] = useState();
 
   const {
     cantidadItems,
@@ -14,11 +12,15 @@ function Pie(props) {
     totalIva,
     onClickok,
     onClickCancel,
-     } = props;
+    cambio,
+    setCambio,
+    recibido, 
+    setRecibido
+  } = props;
 
-  const onChangeValorUni = (e) => {
-    setValorUni(e);
-    setVuelto(e-valorTotal);
+  const onChangeRecibido = (e) => {
+    setRecibido(e);
+    setCambio(e - valorTotal);
   };
 
   return (
@@ -41,20 +43,19 @@ function Pie(props) {
         <img src="img/logo.png" alt="logo" />
       </div>
       <div>
-	<InputNumber
-              onChange={onChangeValorUni}
-              value={valorUni}
-              text="Recibido"
-              size={{ width: "100%" }}
-              disabled={false}
-            />
+        <InputNumber
+          onChange={onChangeRecibido}
+          value={recibido}
+          text="Recibido"
+          size={{ width: "100%" }}
+          disabled={false}
+        />
         <div>
-          <Text>Vueltos</Text>
-          <Text>{vuelto}</Text>
+          <Text>Cambio</Text>
+          <Text>{cambio}</Text>
         </div>
       </div>
       <div>
-	
         <Button type="primary" shape="round" onClick={onClickok}>
           GUARDAR
         </Button>
@@ -66,4 +67,4 @@ function Pie(props) {
   );
 }
 
-export default Pie
+export default Pie;
