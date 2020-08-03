@@ -107,11 +107,10 @@ function DevVentas() {
   };
 
   const onDoubleClick = (e, record) => {
-    const eliminado = articulosFactura.splice(e);
     setdisablesNumero(true);
-    const d = eliminarArray(articulosFactura, eliminado[0]);
+    const d = eliminarArray(articulosFactura, record);
     setArticulosFactura(d);
-    setArticulosDevolucion([...articulosDevolucion, eliminado[0]]);
+    setArticulosDevolucion([...articulosDevolucion, record]);
   };
 
   const onSearch = async (numero) => {

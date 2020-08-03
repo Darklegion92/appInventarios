@@ -152,7 +152,7 @@ function FacturasVentas() {
             cambio={cambio}
             recibido={recibido}
             documento={documento}
-            cliente={cliente}
+            nombre={cliente.nombres +" "+cliente.apellidos}
           />
         </div>
         <Button

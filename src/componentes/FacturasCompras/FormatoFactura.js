@@ -16,7 +16,7 @@ export default class FormatoFactura extends React.Component {
       nombre,
     } = this.props;
     return (
-      <div className="formato-facturaventa">
+      <div className="formato-facturacompra">
         <div className="encabezado">
           <div>PREMIUN SHOP CARNICERIA Y CHARCUTERIA</div>
           <div>NIT. 88215368</div>
@@ -24,7 +24,7 @@ export default class FormatoFactura extends React.Component {
           <div>Telf. 3125920184</div>
           <div>DATOS CLIENTE</div>
           <div>Documento: {documento}</div>
-          <div>Cliente: {nombre}</div>
+          <div>Proveedor: {nombre}</div>
           <div>
             Factura No. {prefijo} {numero}
           </div>

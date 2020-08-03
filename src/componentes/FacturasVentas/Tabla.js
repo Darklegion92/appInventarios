@@ -43,6 +43,7 @@ function Tabla(props) {
   return (
     <Table
       columns={columns}
+      pagination={{ position: ["bottomCenter"], defaultPageSize: 7 }}
       dataSource={datos}
       onRow={(record, rowIndex) => {
         return {

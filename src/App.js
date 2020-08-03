@@ -72,19 +72,39 @@ function App() {
     setModalCierre(false);
   };
 
+  const validarSesion = async (token)=>{
+      const resp = axios.get(API, {
+        headers: {
+          authorization: token,
+        },
+      })
+
+      if (resp.status===200){
+        return true;
+      }
+      
+      return false;
+  }
   useEffect(() => {
     const tokenSession = sessionStorage.getItem("Token");
     const tokenLocal = localStorage.getItem("Token");
+
+
     if (tokenSession) {
-      setNombre(localStorage.getItem("Nombre"));
-      setLogin(false);
-    } else if (tokenLocal) {
+      if(validarSesion(tokenSession)){
+        setNombre(localStorage.getItem("Nombre"));
+        setLogin(false);
+      }   
+    } else if (validarSesion(tokenLocal)) {
       sessionStorage.setItem("Token", tokenLocal);
       setLogin(false);
     } else {
       setLogin(true);
     }
   });
+
+
+
 
   if (seleccion === "salir") {
     setSeleccion(0);
