@@ -8,7 +8,6 @@ const { Text } = Typography;
 
 export default function Combo(props) {
   const { datos, titulo, size, valor, onChange } = props;
-  console.log(datos);
   return (
     <div className="combo">
       <Text>{titulo}</Text>

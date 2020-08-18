@@ -72,40 +72,44 @@ function App() {
     setModalCierre(false);
   };
 
-  const validarSesion = async (token)=>{
-      const resp = axios.get(API, {
+  const validarSesion = async (token) => {
+    try {
+      const resp = await axios.get(API, {
         headers: {
           authorization: token,
         },
-      })
+      });
 
-      if (resp.status===200){
+      if (resp.status === 200) {
         return true;
       }
-      
+    } catch (e) {
       return false;
-  }
+    }
+  };
   useEffect(() => {
+    validarAcceso();
+  });
+  const validarAcceso = async () => {
     const tokenSession = sessionStorage.getItem("Token");
     const tokenLocal = localStorage.getItem("Token");
 
-
     if (tokenSession) {
-      if(validarSesion(tokenSession)){
+      const isAuth = await validarSesion(tokenSession);
+      console.log(isAuth);
+      if (isAuth) {
         setNombre(localStorage.getItem("Nombre"));
         setLogin(false);
-      }   
+      } else {
+        setLogin(true);
+      }
     } else if (validarSesion(tokenLocal)) {
       sessionStorage.setItem("Token", tokenLocal);
       setLogin(false);
     } else {
       setLogin(true);
     }
-  });
-
-
-
-
+  };
   if (seleccion === "salir") {
     setSeleccion(0);
     sessionStorage.clear();
@@ -169,7 +173,9 @@ function App() {
       {!login && seleccion === 0 && <Index />}
       {!login && seleccion === "Facturación-Facturar" && <FacturasVentas />}
       {!login && seleccion === "Facturación-Devoluciones" && <DevVentas />}
-      {!login && seleccion === "Facturación-Informes" && <InformeFacturacion />}
+      {!login && seleccion === "Facturación-Informes" && (
+        <InformeFacturacion setLogin={setLogin} />
+      )}
       {!login && seleccion === "Facturación-Parámetros" && <Parametros />}
       {!login && seleccion === "Facturación-Cierre Diario" && (
         <Modal

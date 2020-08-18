@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { DatePicker, Typography } from "antd";
-import moment from 'moment';
+import moment from "moment";
 import "./styles.css";
 
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY/MM/DD';
+const dateFormat = "YYYY/MM/DD";
 
 export default function DatePickerMult(props) {
   const [dates, setDates] = useState();
-  const { titulo } = props;
+  const { titulo, onChange } = props;
 
   const disabledDate = (current) => {
     if (!dates || dates.length === 0) {
@@ -25,9 +25,13 @@ export default function DatePickerMult(props) {
       <RangePicker
         disabledDate={disabledDate}
         placeholder={["Fecha Incial", "Fecha Final"]}
-        defaultValue={[moment(new Date(), dateFormat), moment(new Date(), dateFormat)]}
+        defaultValue={[
+          moment(new Date(), dateFormat),
+          moment(new Date(), dateFormat),
+        ]}
         onCalendarChange={(value) => {
           setDates(value);
+          onChange(value);
         }}
         size="small"
       />
