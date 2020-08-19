@@ -22,33 +22,33 @@ function Encabezado({
   ]);
 
   useEffect(() => {
-    if (datosSubgrupo)
+    if (datosSubgrupo) {
+      let datos = datosSubgrupos;
       datosSubgrupo.forEach((dato) => {
-        setDatosSubgrupos([
-          ...datosSubgrupos,
-          { id: dato.idsubgrupo, dato: dato.nombre },
-        ]);
+        datos = [...datos, { id: dato.idsubgrupo, dato: dato.nombre }];
       });
+      setDatosSubgrupos(datos);
+    }
   }, [datosGrupo, datosSubgrupo]);
 
   useEffect(() => {
-    if (datosGrupo)
+    if (datosGrupo) {
+      let datos = datosGrupos;
       datosGrupo.forEach((dato) => {
-        setDatosGrupos([
-          ...datosGrupos,
-          { id: dato.idgrupo, dato: dato.nombre },
-        ]);
+        datos = [...datos, { id: dato.idgrupo, dato: dato.nombre }];
       });
+      setDatosGrupos(datos);
+    }
   }, [datosGrupo]);
 
   useEffect(() => {
-    if (datosTipo)
+    if (datosTipo) {
+      let datos = datosTipos;
       datosTipo.forEach((dato) => {
-        setDatosTipos([
-          ...datosTipos,
-          { id: dato.idtipo_informe, dato: dato.nombre },
-        ]);
+        datos = [...datos, { id: dato.idtipo_informe, dato: dato.nombre }];
       });
+      setDatosTipos(datos);
+    }
   }, [datosTipo]);
   return (
     <>
