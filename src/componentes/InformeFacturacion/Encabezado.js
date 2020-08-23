@@ -3,6 +3,7 @@ import Combo from "../Combo";
 import DatePicker from "../DatePickerMult";
 import { Button } from "antd";
 import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
+import NumberFormat from "react-number-format";
 
 function Encabezado({
   datosTipo,
@@ -14,12 +15,14 @@ function Encabezado({
   onChangeSubgrupo,
   onChangeTipo,
   onChangeFechas,
+  datosTabla,
 }) {
   const [datosTipos, setDatosTipos] = useState([]);
   const [datosGrupos, setDatosGrupos] = useState([{ id: 0, dato: "TODOS" }]);
   const [datosSubgrupos, setDatosSubgrupos] = useState([
     { id: 0, dato: "TODOS" },
   ]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (datosSubgrupo) {
@@ -30,6 +33,14 @@ function Encabezado({
       setDatosSubgrupos(datos);
     }
   }, [datosGrupo, datosSubgrupo]);
+
+  useEffect(() => {
+    let total = 0;
+    datosTabla.forEach((dato) => {
+      total += dato.valor;
+    });
+    setTotal(parseFloat(total));
+  }, [datosTabla]);
 
   useEffect(() => {
     if (datosGrupo) {
@@ -67,6 +78,18 @@ function Encabezado({
           titulo="SubGrupo"
           onChange={onChangeSubgrupo}
         />
+      </div>
+      <div>
+        <div className="total">
+          Total:{" "}
+          <NumberFormat
+            value={total}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+            decimalScale={2}
+          />{" "}
+        </div>
       </div>
       <div className="botones">
         <Button onClick={onClickCargar}>

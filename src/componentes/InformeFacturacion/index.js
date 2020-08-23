@@ -146,6 +146,7 @@ function InformeFacturacion({ setLogin }) {
           onChangeTipo={onChangeTipo}
           onChangeFechas={onChangeFechas}
           onClickCargar={cargarDatos}
+          datosTabla={data}
         />
       </div>
       <div className="cuerpo">

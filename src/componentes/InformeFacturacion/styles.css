@@ -10,6 +10,10 @@
 .informe-facturacion .encabezado > div > * {
   margin: 10px;
 }
+.informe-facturacion .encabezado .total {
+  font-size: 20px;
+  color: red;
+}
 .informe-facturacion .encabezado .botones {
   display: flex;
   flex-direction: column;
@@ -21,6 +25,6 @@
 
 /*Cuerpo*/
 
-.informe-facturacion  .cuerpo{
-    margin: 20px 50px;
+.informe-facturacion .cuerpo {
+  margin: 20px 50px;
 }
