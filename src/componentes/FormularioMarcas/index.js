@@ -14,7 +14,7 @@ const FormularioGrupos = (props) => {
     <div className="formulario-grupos">
       <Input
         value={nombre}
-        placeholder="Nombre Grupo"
+        placeholder="Nombre Marca"
         maxLength={20}
         onChange={onChangeNombre}
       />

@@ -37,7 +37,7 @@ import "antd/dist/antd.css";
 
 function App() {
   const [login, setLogin] = useState(false);
-  const [seleccion, setSeleccion] = useState(0);
+  const [seleccion, setSeleccion] = useState('Inventarios-Entradas');
   const [nombre, setNombre] = useState();
   const [modalCierre, setModalCierre] = useState(true);
   const [recaudo, setRecaudo] = useState(0);
