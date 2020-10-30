@@ -1,30 +1,65 @@
-import React, { useState } from "react";
-import { Typography, Button } from "antd";
-import InputNumber from "../InputNumber";
+import React, { useState } from 'react'
+import { Typography, Button, Row, Col, Input } from 'antd'
 
-const { Text } = Typography;
-
-function Pie(props) {
-
-  const {
-    cantidadItems,
-    valorTotal,
-    totalIva,
-    onClickok,
-    onClickCancel,
-    cambio,
-    setCambio,
-    recibido, 
-    setRecibido
-  } = props;
-
-  const onChangeRecibido = (e) => {
-    setRecibido(e);
-    setCambio(e - valorTotal);
-  };
-
+const { Text } = Typography
+const { TextArea } = Input
+const styleTextos = {
+  fontSize: '20px'
+}
+function Pie ({ datosEntrada }) {
   return (
-    <>
+    <Row align='middle' justify='center' gutter={10}>
+      <Col span={8}>
+        <Row gutter={16} align='middle' justify='center'>
+          <Col span={16}>
+            <Text style={styleTextos} strong>
+              Cantidad Items:
+            </Text>
+          </Col>
+          <Col span={8}>
+            <Text style={styleTextos} strong>
+              {datosEntrada.length}
+            </Text>
+          </Col>
+        </Row>
+        <Row gutter={16} align='middle' justify='center'>
+          <Col span={16}>
+            <Text style={styleTextos} strong>
+              Total Entrada:
+            </Text>
+          </Col>
+          <Col span={8}>
+            <Text style={styleTextos} strong>
+              {datosEntrada.length}
+            </Text>
+          </Col>
+        </Row>
+      </Col>
+      <Col span={8}>
+        <img src='img/logo.png' alt='logo' />
+      </Col>
+      <Col span={4}>
+        <Row>
+          <Text>Observación:</Text>
+        </Row>
+        <Row>
+          <TextArea />
+        </Row>
+      </Col>
+      <Col span={4}>
+        <Row gutter={10} align='top' justify='center'>
+          <Button type='primary' shape='round'>
+            GUARDAR
+          </Button>
+        </Row>
+        <Row gutter={10} align='bottom' justify='center'>
+          <Button type='primary' shape='round' danger style={{marginTop:"10px"}}>
+            CANCELAR
+          </Button>
+        </Row>
+      </Col>
+    </Row>
+    /* <>
       <div>
         <div>
           <Text>Cantidad Items:</Text>
@@ -63,8 +98,8 @@ function Pie(props) {
           CANCELAR
         </Button>
       </div>
-    </>
-  );
+    </R>*/
+  )
 }
 
-export default Pie;
+export default Pie
