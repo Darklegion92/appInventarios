@@ -26,6 +26,7 @@ function FacturasVentas() {
     articulos,
     articulosCodigo,
   } = useContext(GlobalContext);
+  
   useEffect(() => {
     cargarParametros();
   }, []);

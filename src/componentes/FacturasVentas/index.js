@@ -463,7 +463,7 @@ function FacturasVentas() {
     }
     alertaError(
       "Artículo No Encontrado",
-      "El Artículo " + documento + " No Existe"
+      "El Artículo " + codigo + " No Existe"
     );
     setDescripcion();
     return false;

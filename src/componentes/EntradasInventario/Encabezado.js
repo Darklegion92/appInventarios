@@ -1,82 +1,87 @@
-﻿import React, { useState, useRef, useEffect } from "react";
-import { Input, Col, Row, Form, Select } from "antd";
+﻿import React, { useState, useRef, useEffect } from 'react'
+import { Input, Col, Row, Form, Select } from 'antd'
 
-const { Option } = Select;
-const { Item } = Form;
+const { Option } = Select
+const { Item } = Form
 
-function Encabezado({ bodegas, articulos, articulosCodigo }) {
-  const [idbodega, setIdBodega] = useState(0);
-  const [codigo, setCodigo] = useState({});
-  const [cargandoParams, setCargandoParams] = useState(true);
-  const [descripcion, setDescripcion] = useState();
-  const refDescripcion = useRef(null);
-  const refCodigo = useRef(null);
-  const onChangeBodegas = (key) => {
-    setIdBodega(key);
-  };
+function Encabezado ({ bodegas, articulos, articulosCodigo }) {
+  const [idbodega, setIdBodega] = useState(0)
+  const [codigo, setCodigo] = useState({})
+  const [cargandoParams, setCargandoParams] = useState(true)
+  const [descripcion, setDescripcion] = useState({
+    value: 'algo'
+  })
+  const refDescripcion = useRef(null)
+  const refCodigo = useRef(null)
+  const onChangeBodegas = key => {
+    setIdBodega(key)
+  }
 
-  const onChangeDescripcion = (key) => {
-    setDescripcion(key);
-  };
+  const onChangeDescripcion = key => {
+    setDescripcion(key)
+  }
 
-  const onSearch = (key) => {
-    console.log(key);
-    setDescripcion(key);
-  };
+  const onSearch = key => {
+    console.log(key)
+    setDescripcion(key)
+  }
 
   useEffect(() => {
-    setCargandoParams(false);
-  }, [bodegas]);
+    setCargandoParams(false)
+  }, [bodegas])
 
-  const onChange = (e) => {
-    const item = e.target;
+  const onChange = e => {
+    const item = e.target
     switch (item.id) {
-      case "basic_codigo":
-        setCodigo(item.value);
-        break;
+      case 'basic_codigo':
+        setCodigo(item.value)
+        break
 
       default:
-        break;
+        break
     }
-  };
+  }
 
-  const onPressEnter = async (e) => {
-    const item = e.target;
+  const onPressEnter = async e => {
+    const item = e.target
 
-    if (item.id === "basic_codigo") {
+    if (item.id === 'basic_codigo') {
       if (item.value) {
-        setCodigo(item.value.toUpperCase());
-        const art = await articulosCodigo(item.value);
-        if (art === "ERROR") {
-          console.log("Articulo no Encontrado");
+        setCodigo(item.value.toUpperCase())
+        const art = await articulosCodigo(item.value)
+        if (art === 'ERROR') {
+          console.log('Articulo no Encontrado')
         } else {
-          setDescripcion({ id: art.idarticulo, value: art.descripcion });
+          //console.log({ id: art.idarticulo, descripcion: art.descripcion })
+          setDescripcion({
+            value: 'algo'
+          })
         }
       } else {
-        refDescripcion.current.focus();
+        refDescripcion.current.focus()
       }
     }
-  };
+  }
 
   return (
-    <Form name="basic" layout="vertical">
-      <Row align="middle" justify="center" gutter={16}>
+    <Form name='basic' layout='vertical'>
+      <Row align='middle' justify='center' gutter={16}>
         <Col span={3}>
-          <Item label="Bodega" name="bodega">
+          <Item label='Bodega' name='bodega'>
             <Select
               onChange={onChangeBodegas}
-              defaultValue={"Seleccione..."}
+              defaultValue={'Seleccione...'}
               loading={cargandoParams}
             >
               {bodegas &&
-                bodegas.map((bodega) => {
-                  return <Option key={bodega.id}>{bodega.nombre}</Option>;
+                bodegas.map(bodega => {
+                  return <Option key={bodega.id}>{bodega.nombre}</Option>
                 })}
             </Select>
           </Item>
         </Col>
         <Col span={2}>
-          <Item label="Código" name="codigo">
+          <Item label='Código' name='codigo'>
             <Input
               onChange={onChange}
               onPressEnter={onPressEnter}
@@ -86,47 +91,50 @@ function Encabezado({ bodegas, articulos, articulosCodigo }) {
           </Item>
         </Col>
         <Col span={10}>
-          <Item label="Descripción" name="descripcion">
+          <Item label='Descripción' name='descripcion'>
             <Select
               onSearch={onSearch}
               showSearch
               allowClear
               ref={refDescripcion}
+              //defaultValue={descripcion}
               value={descripcion}
               labelInValue={true}
               disabled={true}
               loading={true}
-              optionFilterProp="children"
+              optionFilterProp='children'
               onChange={onChangeDescripcion}
-              size="small"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              size='small'
             >
               {articulos &&
-                articulos.map((articulo) => {
-                  return <Option key={articulo.id}>{articulo.nombre}</Option>;
+                articulos.map(articulo => {
+                  console.log(articulo)
+                  return (
+                    <Option key={articulo.idarticulo}>
+                      {articulo.descripcion}
+                    </Option>
+                  )
                 })}
             </Select>
           </Item>
         </Col>
         <Col span={3}>
-          <Item label="Precio Unt" name="precioUnt">
+          <Item label='Precio Unt' name='precioUnt'>
             <Input onChange={onChange} />
           </Item>
         </Col>
         <Col span={3}>
-          <Item label="Cantidad" name="cantidad">
+          <Item label='Cantidad' name='cantidad'>
             <Input onChange={onChange} />
           </Item>
         </Col>
         <Col span={3}>
-          <Item label="Total" name="total">
+          <Item label='Total' name='total'>
             <Input disabled onChange={onChange} />
           </Item>
         </Col>
       </Row>
     </Form>
-  );
+  )
 }
-export default Encabezado;
+export default Encabezado
