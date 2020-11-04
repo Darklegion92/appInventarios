@@ -21,18 +21,54 @@ const { Title } = Typography;
 function FacturasVentas() {
   const {
     bodegas,
-    entrada,
     cargarParametros,
     articulos,
     articulosCodigo,
+    articulosDescripcion,
+    guardarEntrada,
   } = useContext(GlobalContext);
-  
+  const [datosTabla, setDatoTabla] = useState([]);
+  const [idBodega, setIdBodega] = useState();
+  const [bodegaEstado, setBodegaEstado] = useState(false);
+
+  const agregarDatos = (datos, idbodega) => {
+    setIdBodega(idbodega);
+    setDatoTabla([
+      ...datosTabla,
+      {
+        codigoarticulo: datos.codigo,
+        descripcionarticulo: datos.artDescripcion,
+        cantidadarticulo: datos.cantidad,
+        valorarticulo: datos.precio,
+        valortotal: datos.precio * datos.cantidad,
+      },
+    ]);
+    return true;
+  };
+
+  const buscarArticulo = (dato) => {
+    articulosDescripcion(dato);
+  };
+
+  const onClick = async (observacion) => {
+    console.log(idBodega);
+    const resp = await guardarEntrada(datosTabla, idBodega, observacion);
+    if (resp) {
+      limpiarCampos();
+    } else {
+      console.log(resp);
+    }
+  };
+  const limpiarCampos = () => {
+    setDatoTabla([]);
+    setBodegaEstado(false);
+  };
   useEffect(() => {
     cargarParametros();
   }, []);
 
   return (
-    <Row justify="center" gutter={[0, 16]}>
+    <Row justify="center" gutter={[0, 18]}>
       <Col span={20}>
         <Row justify="center">
           <Title>Entradas Inventarios</Title>
@@ -41,15 +77,23 @@ function FacturasVentas() {
           bodegas={bodegas}
           articulos={articulos}
           articulosCodigo={articulosCodigo}
+          agregarDatos={agregarDatos}
+          buscarArticulo={buscarArticulo}
+          bodegaEstado={bodegaEstado}
+          setBodegaEstado={setBodegaEstado}
         />
         <Row gutter={[0, 16]}>
           <Col span={24}>
-            <Tabla datos={entrada.items} />
+            <Tabla datos={datosTabla} />
           </Col>
         </Row>
         <Row gutter={[0, 16]}>
           <Col span={24}>
-            <Pie datosEntrada={entrada.items} />
+            <Pie
+              datosEntrada={datosTabla}
+              setOnClick={onClick}
+              limpiarCampos={limpiarCampos}
+            />
           </Col>
         </Row>
       </Col>

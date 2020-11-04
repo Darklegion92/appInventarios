@@ -1,9 +1,9 @@
-﻿import React,{useState,useEffect} from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Table } from "antd";
 
 function Tabla(props) {
-  const { datos, onDoubleClick } = props;  
- 
+  const { datos, onDoubleClick } = props;
+
   const columns = [
     {
       title: "Codigo",
@@ -47,11 +47,8 @@ function Tabla(props) {
       dataSource={datos}
       onRow={(record, rowIndex) => {
         return {
-          onClick: (event) => {
-	 }, // click row
-          onDoubleClick: (event) => {
-	     onDoubleClick(rowIndex,record);
-          }, // double click row
+          onClick: (event) => {}, // click row
+          onDoubleClick: (event) => {}, // double click row
           onContextMenu: (event) => {}, // right button click row
           onMouseEnter: (event) => {}, // mouse enter row
           onMouseLeave: (event) => {}, // mouse leave row

@@ -1,16 +1,34 @@
-import React, { useState } from 'react'
-import { Typography, Button, Row, Col, Input } from 'antd'
+import React, { useState, useEffect } from "react";
+import { Typography, Button, Row, Col, Input } from "antd";
 
-const { Text } = Typography
-const { TextArea } = Input
+const { Text } = Typography;
+const { TextArea } = Input;
 const styleTextos = {
-  fontSize: '20px'
-}
-function Pie ({ datosEntrada }) {
+  fontSize: "20px",
+};
+function Pie({ datosEntrada, setOnClick, limpiarCampos }) {
+  const [total, setTotal] = useState(0);
+  const [observacion, setObservacion] = useState("");
+
+  useEffect(() => {
+    let cant = 0;
+    datosEntrada.forEach((dato) => {
+      cant += dato.valortotal;
+    });
+    setTotal(cant);
+  }, [datosEntrada]);
+
+  const onChange = (e) => {
+    setObservacion(e.target.value);
+  };
+
+  const onClick = () => {
+    setOnClick(observacion);
+  };
   return (
-    <Row align='middle' justify='center' gutter={10}>
+    <Row align="middle" justify="center" gutter={10}>
       <Col span={8}>
-        <Row gutter={16} align='middle' justify='center'>
+        <Row gutter={16} align="middle" justify="center">
           <Col span={16}>
             <Text style={styleTextos} strong>
               Cantidad Items:
@@ -22,7 +40,7 @@ function Pie ({ datosEntrada }) {
             </Text>
           </Col>
         </Row>
-        <Row gutter={16} align='middle' justify='center'>
+        <Row gutter={16} align="middle" justify="center">
           <Col span={16}>
             <Text style={styleTextos} strong>
               Total Entrada:
@@ -30,76 +48,42 @@ function Pie ({ datosEntrada }) {
           </Col>
           <Col span={8}>
             <Text style={styleTextos} strong>
-              {datosEntrada.length}
+              {total}
             </Text>
           </Col>
         </Row>
       </Col>
       <Col span={8}>
-        <img src='img/logo.png' alt='logo' />
+        <img src="img/logo.png" alt="logo" />
       </Col>
       <Col span={4}>
         <Row>
           <Text>Observación:</Text>
         </Row>
         <Row>
-          <TextArea />
+          <TextArea onChange={onChange} value={observacion} />
         </Row>
       </Col>
       <Col span={4}>
-        <Row gutter={10} align='top' justify='center'>
-          <Button type='primary' shape='round'>
+        <Row gutter={10} align="top" justify="center">
+          <Button type="primary" shape="round" onClick={onClick}>
             GUARDAR
           </Button>
         </Row>
-        <Row gutter={10} align='bottom' justify='center'>
-          <Button type='primary' shape='round' danger style={{marginTop:"10px"}}>
+        <Row gutter={10} align="bottom" justify="center">
+          <Button
+            type="primary"
+            shape="round"
+            danger
+            style={{ marginTop: "10px" }}
+            onClick={limpiarCampos}
+          >
             CANCELAR
           </Button>
         </Row>
       </Col>
     </Row>
-    /* <>
-      <div>
-        <div>
-          <Text>Cantidad Items:</Text>
-          <Text>{cantidadItems}</Text>
-        </div>
-        <div>
-          <Text>Total Factura:</Text>
-          <Text>{valorTotal}</Text>
-        </div>
-        <div>
-          <Text>Total IVA:</Text>
-          <Text>{totalIva}</Text>
-        </div>
-      </div>
-      <div>
-        <img src="img/logo.png" alt="logo" />
-      </div>
-      <div>
-        <InputNumber
-          onChange={onChangeRecibido}
-          value={recibido}
-          text="Recibido"
-          size={{ width: "100%" }}
-          disabled={false}
-        />
-        <div>
-          <Text>Cambio</Text>
-          <Text>{cambio}</Text>
-        </div>
-      </div>
-      <div>
-        <Button type="primary" shape="round" onClick={onClickok}>
-          GUARDAR
-        </Button>
-        <Button type="primary" shape="round" danger onClick={onClickCancel}>
-          CANCELAR
-        </Button>
-      </div>
-    </R>*/
-  )
+  );
 }
 
-export default Pie
+export default Pie;
