@@ -1,38 +1,38 @@
-﻿import React, { useState, useEffect, useRef, useContext } from "react";
-import { useReactToPrint } from "react-to-print";
-import { Typography, Col, Row } from "antd";
-import axios from "axios";
-import { Modal, Button } from "antd";
+﻿import React, { useState, useEffect, useRef, useContext } from 'react'
+import { useReactToPrint } from 'react-to-print'
+import { Typography, Col, Row } from 'antd'
+import axios from 'axios'
+import { Modal, Button } from 'antd'
 import {
   ExclamationCircleOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
-import Tabla from "./Tabla";
-import Encabezado from "./Encabezado";
-import FormatoFactura from "./FormatoFactura";
-import Pie from "./Pie";
-import { GlobalContext } from "../../context/GlobalContext";
-import { API } from "../../config/keys";
+  CloseCircleOutlined
+} from '@ant-design/icons'
+import Tabla from './Tabla'
+import Encabezado from './Encabezado'
+import FormatoFactura from './FormatoFactura'
+import Pie from './Pie'
+import { GlobalContext } from '../../context/GlobalContext'
+import { API } from '../../config/keys'
 
-import "./styles.css";
-const { Title } = Typography;
+import './styles.css'
+const { Title } = Typography
 
-function FacturasVentas() {
+function FacturasVentas () {
   const {
     bodegas,
     cargarParametros,
     articulos,
     articulosCodigo,
     articulosDescripcion,
-    guardarEntrada,
-  } = useContext(GlobalContext);
-  const [datosTabla, setDatoTabla] = useState([]);
-  const [idBodega, setIdBodega] = useState();
-  const [bodegaEstado, setBodegaEstado] = useState(false);
+    guardarEntrada
+  } = useContext(GlobalContext)
+  const [datosTabla, setDatoTabla] = useState([])
+  const [idBodega, setIdBodega] = useState()
+  const [bodegaEstado, setBodegaEstado] = useState(false)
 
   const agregarDatos = (datos, idbodega) => {
-    setIdBodega(idbodega);
+    setIdBodega(idbodega)
     setDatoTabla([
       ...datosTabla,
       {
@@ -40,37 +40,33 @@ function FacturasVentas() {
         descripcionarticulo: datos.artDescripcion,
         cantidadarticulo: datos.cantidad,
         valorarticulo: datos.precio,
-        valortotal: datos.precio * datos.cantidad,
-      },
-    ]);
-    return true;
-  };
+        valortotal: datos.precio * datos.cantidad
+      }
+    ])
+    return true
+  }
 
-  const buscarArticulo = (dato) => {
-    articulosDescripcion(dato);
-  };
+  const buscarArticulo = dato => {
+    articulosDescripcion(dato)
+  }
 
-  const onClick = async (observacion) => {
-    console.log(idBodega);
-    const resp = await guardarEntrada(datosTabla, idBodega, observacion);
+  const onClick = async observacion => {
+    console.log(idBodega)
+    const resp = await guardarEntrada(datosTabla, idBodega, observacion)
     if (resp) {
-      limpiarCampos();
+      limpiarCampos()
     } else {
-      console.log(resp);
+      console.log(resp)
     }
-  };
+  }
   const limpiarCampos = () => {
-    setDatoTabla([]);
-    setBodegaEstado(false);
-  };
-  useEffect(() => {
-    cargarParametros();
-  }, []);
-
+    setDatoTabla([])
+    setBodegaEstado(false)
+  }
   return (
-    <Row justify="center" gutter={[0, 18]}>
+    <Row justify='center' gutter={[0, 18]}>
       <Col span={20}>
-        <Row justify="center">
+        <Row justify='center'>
           <Title>Entradas Inventarios</Title>
         </Row>
         <Encabezado
@@ -98,7 +94,7 @@ function FacturasVentas() {
         </Row>
       </Col>
     </Row>
-  );
+  )
 }
 
-export default FacturasVentas;
+export default FacturasVentas

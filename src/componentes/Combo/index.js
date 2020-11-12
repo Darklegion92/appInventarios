@@ -1,28 +1,29 @@
-import React from "react";
-import { Select, Typography } from "antd";
+import React from 'react'
+import { Select, Typography } from 'antd'
 
-import "./styles.css";
+import './styles.css'
 
-const { Option } = Select;
-const { Text } = Typography;
+const { Option } = Select
+const { Text } = Typography
 
-export default function Combo(props) {
-  const { datos, titulo, size, valor, onChange } = props;
+export default function Combo (props) {
+  const { datos, titulo, size, valor, onChange, ref } = props
   return (
-    <div className="combo">
+    <div className='combo'>
       <Text>{titulo}</Text>
       <Select
         labelInValue={true}
         value={valor}
         style={size || { width: 250 }}
         onChange={onChange}
-        size="small"
+        size='small'
+        ref={ref}
       >
         {datos &&
-          datos.map((dato) => {
-            return <Option key={dato.id}>{dato.dato}</Option>;
+          datos.map(dato => {
+            return <Option key={dato.id}>{dato.dato}</Option>
           })}
       </Select>
     </div>
-  );
+  )
 }

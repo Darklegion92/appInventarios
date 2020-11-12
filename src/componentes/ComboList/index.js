@@ -1,12 +1,12 @@
-import React from "react";
-import { Select, Typography } from "antd";
+import React from 'react'
+import { Select, Typography } from 'antd'
 
-import "./styles.css";
+import './styles.css'
 
-const { Option } = Select;
-const { Text } = Typography;
+const { Option } = Select
+const { Text } = Typography
 
-export default function ComboList(props) {
+export default function ComboList (props) {
   const {
     datos,
     title,
@@ -18,10 +18,11 @@ export default function ComboList(props) {
     onSearch,
     onFocus,
     onBlur,
-  } = props;
+    ref
+  } = props
 
   return (
-    <div className="combo">
+    <div className='combo'>
       <Text>{title}</Text>
       <Select
         disabled={disabled}
@@ -29,22 +30,23 @@ export default function ComboList(props) {
         onFocus={onFocus}
         showSearch
         placeholder={title}
-        optionFilterProp="children"
+        optionFilterProp='children'
         labelInValue={true}
         value={value}
         style={size || { width: 250 }}
         onChange={onChange}
-        size="small"
+        size='small'
         onSearch={onSearch}
         onBlur={onBlur}
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
+        ref={ref}
       >
-        {datos.map((dato) => {
-          return <Option key={dato.id}>{dato.dato}</Option>;
+        {datos.map(dato => {
+          return <Option key={dato.id}>{dato.dato}</Option>
         })}
       </Select>
     </div>
-  );
+  )
 }

@@ -1,10 +1,12 @@
-﻿import React, { useState, useRef } from "react";
-import { Input, Col, Row } from "antd";
-import InputText from "../InputText";
-import InputNumber from "../InputNumber";
-import ComboList from "../ComboList";
+﻿import React, { useRef } from 'react'
+import { Input, Col, Row, Typography, Select } from 'antd'
+import InputText from '../InputText'
+import InputNumber from '../InputNumber'
 
-function Encabezado(props) {
+const { Text } = Typography
+
+const { Option } = Select
+function Encabezado (props) {
   const {
     codigo,
     setCodigo,
@@ -42,177 +44,127 @@ function Encabezado(props) {
     disabledCantidad,
     disabledNombre,
     setdisabledNombre,
-    alertaError,
-  } = props;
+    alertaError
+  } = props
 
-  const onChangeCodigo = (e) => {
-    setCodigo(e.target.value.toUpperCase());
-  };
+  const refCodigo = useRef(null)
+  const refDocumento = useRef(null)
+  const refNombres = useRef(null)
+  const refDescripcion = useRef(null)
+  const refCantidad = useRef(null)
 
-  const onChangeDocumento = (e) => {
-    if (nombre) {
-      setdisabledDescripcion(true);
-      setdisabledCodigo(true);
+  /*Funcional */
+  const onPressEnterDocumento = async e => {
+    const documento = e.target.value
+    if (documento) {
+      const resp = await traerCliente(documento)
+      if (resp) {
+        setdisabledNombre(true)
+        setdisabledCodigo(false)
+        setdisabledDescripcion(false)
+        refCodigo.current.select()
+      } else {
+        setdisabledCodigo(false)
+        setdisabledDescripcion(false)
+      }
+    } else {
+      setdisabledNombre(false)
+      setdisabledDocumento(true)
+      refNombres.current.focus()
     }
-    if (e.target.value === "") {
-      setdisabledNombre(false);
-      setNombre();
-    }
-    setDocumento(e.target.value.toUpperCase());
-  };
+  }
 
-  const onChangeDescripcion = (e) => {
-    asignarCodigo(e.key);
-    setDescripcion(e);
-    setdisabledCantidad(false);
-  };
-
-  const onChangeCantidad = (e) => {
-    setCantidad(e);
-    if (e > 0 && valorUni > 0) {
-      setValorTotal(e * valorUni);
-    }else{
-      setValorTotal(0);
-    }
-  };
-
-  const onChangeValorUni = (e) => {
-    setValorUni(e);
-    setdisabledCantidad(false);
-    if (cantidad > 0 && e > 0) {
-      setValorTotal(cantidad * e);
-    }
-  };
-
-  const onChangeNombre = (e) => {
+  const onChangeNombre = e => {
     if (e.key) {
-      asignarDocumento(e.key);
-      traerCliente(e.key);
-      setNombre(e);
-      setdisabledCodigo(false);
-      setdisabledDescripcion(false);
+      asignarDocumento(e.key)
+      traerCliente(e.key)
+      setNombre(e)
+      setdisabledCodigo(false)
+      setdisabledDescripcion(false)
+      refCodigo.current.select()
     } else {
-      setdisabledCodigo(false);
-      setdisabledDescripcion(true);
+      setdisabledCodigo(false)
+      setdisabledDescripcion(true)
+      refDocumento.current.select()
     }
-  };
+  }
 
-  const onBlurDocumento = (e) => {
-    if (documento) {
-      if (traerCliente(documento)) {
-        setdisabledNombre(true);
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
-      } else {
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
-      }
-    } else {
-      setdisabledNombre(false);
-      setdisabledDocumento(true);
-    }
-  };
+  const onSearchNombre = e => {
+    cargarClientes(e.toUpperCase())
+  }
 
-  const onFocusNombre = (e) => {
-    if (documento) {
-      if (traerCliente(documento)) {
-        setdisabledNombre(true);
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
-      } else {
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
-      }
-    } else {
-      setdisabledNombre(false);
-      setdisabledDocumento(true);
-    }
-  };
-
-  const onSearchNombre = (e) => {
-    cargarClientes(e.toUpperCase());
-  };
-
-  const onSearchDescripcion = (e) => {
-    cargarArticulos(e.toUpperCase());
-  };
-
-  const onFocusDescripcion = async (e) => {
-    if (documento && nombre) {
-    } else {
-      alertaError(
-        "Error de validación",
-        "Elija primero un cliente antes de comenzar a facturar"
-      );
-      setdisabledDescripcion(true);
-    }
-    /* if (codigo) {
-      const res = await traerArticulo(codigo);
+  const onPressEnterCodigo = async e => {
+    const codigo = e.target.value
+    if (codigo) {
+      const res = await traerArticulo(codigo)
       if (res === true) {
-        setdisabledDescripcion(true);
+        setdisabledDescripcion(true)
+        setdisabledCantidad(false)
+        refCantidad.current.select()
       }
     } else {
-      setdisabledDescripcion(false);
-      setdisabledCodigo(true);
-    }*/
-  };
-  const onBlurCantidad = (e) => {
+      setdisabledDescripcion(false)
+      setdisabledCodigo(true)
+      refDescripcion.current.focus()
+    }
+  }
+
+  const onSearchDescripcion = e => {
+    cargarArticulos(e.toUpperCase())
+  }
+
+  const onChangeDescripcion = e => {
+    asignarCodigo(e.key)
+    setDescripcion(e)
+    refCantidad.current.select()
+  }
+
+  const onChangeValorUni = e => {
+    console.log(e)
+    setValorUni(e)
+    setdisabledCantidad(false)
+    setValorTotal(1 * e)
+  }
+
+  const onChangeCantidad = e => {
+    const cant = e.target.value
+    setCantidad(cant)
+    if (cant > 0 && valorUni > 0) {
+      setValorTotal(cant * valorUni)
+    } else {
+      setValorTotal(0)
+    }
+  }
+
+  const onPressEnterCantidad = e => {
     if (valorTotal > 0) {
       if (guardarTabla()) {
-        nuevoarticulo();
+        refCodigo.current.select()
+        nuevoarticulo()
+        refCodigo.current.select()
       }
     } else {
       alertaError(
-        "Cantidad o Precio Erroneos",
-        "La Cantidad o El Precio No Pueden Ser 0"
-      );
-      setdisabledDescripcion(false);
-      setdisabledCodigo(true);
+        'Cantidad o Precio Erroneos',
+        'La Cantidad o El Precio No Pueden Ser 0'
+      )
+      setdisabledDescripcion(false)
+      setdisabledCodigo(true)
     }
-  };
-
-  const onFocusCodigo = () => {
-    if (documento && nombre) {
-    } else {
-      alertaError(
-        "Error de validación",
-        "Elija primero un cliente antes de comenzar a facturar"
-      );
-    }
-  };
-
-  const onBlurDescripcion = () => {
-    if (descripcion) {
-    } else {
-      setdisabledCodigo(false);
-      setdisabledDescripcion(true);
-    }
-  };
-  const onBlurCodigo = async () => {
-    if (codigo) {
-      const res = await traerArticulo(codigo);
-      if (res === true) {
-        setdisabledDescripcion(true);
-        setdisabledCantidad(false);
-      }
-    } else {
-      setdisabledDescripcion(false);
-      setdisabledCodigo(true);
-    }
-  };
+  }
 
   const nuevoarticulo = () => {
-    setdisabledDescripcion(false);
-    setdisabledCodigo(false);
-    setdisabledDocumento(true);
-    setdisabledNombre(true);
-    setdisabledCantidad(true);
-    setCodigo("");
-    setDescripcion([]);
-    setCantidad(0);
-    setValorTotal(0);
-    setValorUni(0);
-  };
+    setdisabledDescripcion(false)
+    setdisabledCodigo(false)
+    setdisabledDocumento(true)
+    setdisabledNombre(true)
+    setCodigo('')
+    setDescripcion([])
+    setCantidad(1)
+    setValorTotal(0)
+    setValorUni(0)
+    refCodigo.current.select()
+  }
 
   return (
     <div>
@@ -220,100 +172,129 @@ function Encabezado(props) {
         <Row gutter={10}>
           <Col span={2}>
             <InputText
-              text="Prefijo"
+              text='Prefijo'
               value={prefijo}
-              size={{ width: "100%" }}
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
           <Col span={3}>
             <InputText
-              text="Número"
+              text='Número'
               value={numero}
-              size={{ width: "100%" }}
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
           <Col span={4}>
-            <InputText
-              text="Documento"
-              value={documento}
-              onChange={onChangeDocumento}
-              size={{ width: "100%" }}
+            <Text>Documento</Text>
+            <Input
               disabled={disabledDocumento}
-              onBlur={onBlurDocumento}
+              onPressEnter={onPressEnterDocumento}
+              placeholder='Documento'
+              size='small'
+              style={{ width: '100%' }}
+              allowClear
+              ref={refDocumento}
             />
           </Col>
           <Col span={14}>
-            <ComboList
-              title="Nombre"
-              size={{ width: "100%" }}
+            <Text>Nombre</Text>
+            <Select
               disabled={disabledNombre}
-              datos={datosNombre}
-              onSearch={onSearchNombre}
-              onChange={onChangeNombre}
-              cargando={cargando}
+              showSearch
+              placeholder='Nombre'
+              optionFilterProp='children'
+              labelInValue={true}
               value={nombre}
-              onFocus={onFocusNombre}
-            />
+              style={{ width: '100%' }}
+              onChange={onChangeNombre}
+              size='small'
+              onSearch={onSearchNombre}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              ref={refNombres}
+            >
+              {datosNombre.map(dato => {
+                return <Option key={dato.id}>{dato.dato}</Option>
+              })}
+            </Select>
           </Col>
         </Row>
         <Row gutter={5}>
           <Col span={3}>
-            <InputText
-              text="Código"
-              onChange={onChangeCodigo}
-              value={codigo}
-              size={{ width: "100%" }}
+            <Text>Código</Text>
+            <Input
               disabled={disabledCodigo}
-              onBlur={onBlurCodigo}
-              onFocus={onFocusCodigo}
+              onPressEnter={onPressEnterCodigo}
+              placeholder='Código'
+              size='small'
+              style={{ width: '100%' }}
+              allowClear
+              ref={refCodigo}
             />
           </Col>
           <Col span={10}>
-            <ComboList
-              title="Decripción"
-              size={{ width: "100%" }}
+            <Text>Decripción</Text>
+            <Select
               disabled={disabledDescripcion}
-              datos={datosDescripcion}
-              onSearch={onSearchDescripcion}
-              cargando={cargando}
+              showSearch
+              placeholder='Decripción'
+              optionFilterProp='children'
+              labelInValue={true}
               value={descripcion}
-              onFocus={onFocusDescripcion}
+              style={{ width: '100%' }}
               onChange={onChangeDescripcion}
-              onBlur={onBlurDescripcion}
-            />
+              size='small'
+              onSearch={onSearchDescripcion}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              ref={refDescripcion}
+            >
+              {datosDescripcion.map(dato => {
+                return <Option key={dato.id}>{dato.dato}</Option>
+              })}
+            </Select>
           </Col>
           <Col span={3}>
-            <InputNumber
-              onChange={onChangeValorUni}
-              value={valorUni}
-              text="Valor Un."
-              size={{ width: "100%" }}
+            <Text>Valor Un.</Text>
+            <Input
               disabled={true}
+              placeholder='Valor Un.'
+              size='small'
+              style={{ width: '100%' }}
+              value={valorUni}
+              allowClear
+              onChange={onChangeValorUni}
             />
           </Col>
           <Col span={3}>
-            <InputNumber
-              text="Cantidad"
-              onChange={onChangeCantidad}
-              value={cantidad}
-              size={{ width: "100%" }}
-              onBlur={onBlurCantidad}
+            <Text>Cantidad</Text>
+            <Input
               disabled={disabledCantidad}
+              placeholder='Cantidad'
+              value={cantidad}
+              size='small'
+              style={{ width: '100%' }}
+              onChange={onChangeCantidad}
+              onPressEnter={onPressEnterCantidad}
+              allowClear
+              ref={refCantidad}
             />
           </Col>
           <Col span={4}>
             <InputNumber
               value={valorTotal}
-              text="Total"
-              size={{ width: "100%" }}
+              text='Total'
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
         </Row>
       </Input.Group>
     </div>
-  );
+  )
 }
-export default Encabezado;
+export default Encabezado

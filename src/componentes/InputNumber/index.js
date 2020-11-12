@@ -4,7 +4,7 @@ import "./styles.css";
 const { Text } = Typography;
 
 export default function index(props) {
-  const { text, min, max, size, onChange, value, disabled, onBlur } = props;
+  const { text, min, max, size, onChange, value, disabled, onBlur,ref } = props;
   const vacio = () => {};
   return (
     <div className="input-number">
@@ -16,6 +16,7 @@ export default function index(props) {
         onChange={onChange}
         placeholder={text}
         size="small"
+        ref={ref}
         /*formatter={(value) =>
           `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
