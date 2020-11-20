@@ -25,6 +25,8 @@ const GlobalProvider = ({ children }) => {
     if (respBodegas.status === 200) {
       setBodegas(respBodegas.data)
     }
+    const datos = await axios.get(API + 'parametros/sucursales')
+    setSucursales(datos.data)
   }
 
   const articulosDescripcion = async desc => {
@@ -74,19 +76,21 @@ const GlobalProvider = ({ children }) => {
 
   const cargarParametrosIniciales = async () => {
     const token = localStorage.getItem('Token')
+    try {
+      const isAuth = await axios.get(API + 'validar', {
+        headers: {
+          authorization: token
+        }
+      })
 
-    const isAuth = await axios.get(API + 'validar', {
-      headers: {
-        authorization: token
+      if (isAuth.status === 200) {
+        setUsuario(isAuth.data)
+        cargarParametros(token, isAuth.data)
+      } else {
+        setUsuario()
       }
-    })
-
-    if (isAuth.status === 200) {
-      const datos = await axios.get(API + 'parametros/sucursales')
-      setSucursales(datos.data)
-      setUsuario(isAuth.data)
-    } else {
-      setUsuario()
+    } catch (e) {
+      console.log(e)
     }
   }
 

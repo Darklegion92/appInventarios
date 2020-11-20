@@ -29,6 +29,7 @@ import AjustesInventario from './componentes/AjustesInventario'
 import Agrupaciones from './componentes/Agrupaciones'
 import Articulos from './componentes/Articulos'
 import InformeInventarios from './componentes/InformeInventarios'
+import ParametrosInventario from './componentes/ParametrosInventario'
 import Clientes from './componentes/Clientes'
 import InformeCRM from './componentes/InformeCRM'
 import Index from './componentes/Index'
@@ -130,7 +131,8 @@ function App () {
                 'Ajustes',
                 'Agrupaciones',
                 'Artículos',
-                'Informes'
+                'Informes',
+                'Párametros'
               ],
               icon: <ContainerOutlined />
             },
@@ -182,6 +184,9 @@ function App () {
       {usuario && seleccion === 'Inventarios-Ajustes' && <AjustesInventario />}
       {usuario && seleccion === 'Inventarios-Agrupaciones' && <Agrupaciones />}
       {usuario && seleccion === 'Inventarios-Artículos' && <Articulos />}
+      {usuario && seleccion === 'Inventarios-Párametros' && (
+        <ParametrosInventario />
+      )}
       {usuario && seleccion === 'Inventarios-Informes' && (
         <InformeInventarios />
       )}

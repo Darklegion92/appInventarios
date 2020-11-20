@@ -41,7 +41,6 @@ function TablaParametros(props) {
           }
         );
       }
-      console.log(res);
       setDatosIva(res.data);
       setDatos(res.data);
     }
