@@ -10,7 +10,8 @@ const GlobalProvider = ({ children }) => {
   const [sucursales, setSucursales] = useState([])
   const [bodegas, setBodegas] = useState([])
   const [articulos, setArticulos] = useState([])
-  const [seleccion, setSeleccion] = useState(0)
+  const [seleccion, setSeleccion] = useState('Configuración-Usuarios')
+  const [usuarios, setUsuarios] = useState([])
 
   const cargarParametros = async (token, usuario) => {
     //cargar bodegas
@@ -27,6 +28,19 @@ const GlobalProvider = ({ children }) => {
     }
     const datos = await axios.get(API + 'parametros/sucursales')
     setSucursales(datos.data)
+    constultarUsuarios()
+  }
+
+  const constultarUsuarios = async () => {
+    const datos = await axios.get(API + 'lista', {
+      headers: {
+        authorization: sessionStorage.getItem('Token')
+      }
+    })
+    if (datos.status === 200) {
+      setUsuarios(datos.data)
+    }
+    return 'ERROR'
   }
 
   const articulosDescripcion = async desc => {
@@ -115,6 +129,7 @@ const GlobalProvider = ({ children }) => {
         seleccion,
         login,
         usuario,
+        usuarios,
         sucursales,
         articulosDescripcion,
         guardarEntrada

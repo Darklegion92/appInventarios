@@ -13,7 +13,6 @@ export default function Encabezado(props) {
   const { datos, setSeleccion, nombre } = props;
 
   const handleClick = (e) => {
-    console.log("click ", e);
     setCurrent({ current: e.key });
     setSeleccion(e.key);
   };

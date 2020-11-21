@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Table, Typography, Button, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useState } from 'react'
+import { Table, Typography, Button, Modal } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 
-import "./styles.css";
+import './styles.css'
 
-const { Title } = Typography;
+const { Title } = Typography
 
-function Tabla(props) {
+function Tabla (props) {
   const {
     titulo,
     datos,
@@ -16,31 +16,34 @@ function Tabla(props) {
     okButton,
     Componente,
     edicion,
-  } = props;
-  const [modal, setModal] = useState(false);
-  const [editar, setEditar] = useState(false);
+    setBodega
+  } = props
+  const [modal, setModal] = useState(false)
+  const [editar, setEditar] = useState(false)
 
   const handleOk = async () => {
-    okButton(editar);
-    setModal(false);
-  };
+    okButton(editar)
+    setModal(false)
+  }
 
   const handleCancel = () => {
-    setModal(false);
-  };
+    if (setBodega && setBodega({})) {
+    }
+    setModal(false)
+  }
 
-  const handleNuevo = async (e) => {
-    setEditar(false);
-    setModal(true);
-  };
+  const handleNuevo = async e => {
+    setEditar(false)
+    setModal(true)
+  }
 
   return (
-    <div className="tabla-datos">
-      <div className="encabezado">
+    <div className='tabla-datos'>
+      <div className='encabezado'>
         <Title>{titulo}</Title>
         <Button
-          shape="circle"
-          type="primary"
+          shape='circle'
+          type='primary'
           icon={<PlusOutlined />}
           onClick={handleNuevo}
         />
@@ -49,25 +52,25 @@ function Tabla(props) {
       <Table
         columns={columnas}
         dataSource={datos}
-        pagination={{ position: ["bottomCenter"], defaultPageSize: paginacion }}
+        pagination={{ position: ['bottomCenter'], defaultPageSize: paginacion }}
         onRow={(record, rowIndex) => {
           return {
-            onClick: (event) => {
+            onClick: event => {
               if (onClick) {
-                onClick(record);
+                onClick(record)
               }
             }, // click row
-            onDoubleClick: (event) => {
+            onDoubleClick: event => {
               if (edicion) {
-                edicion(record);
-                setEditar(true);
-                setModal(true);
+                edicion(record)
+                setEditar(true)
+                setModal(true)
               }
             }, // double click row
-            onContextMenu: (event) => {}, // right button click row
-            onMouseEnter: (event) => {}, // mouse enter row
-            onMouseLeave: (event) => {}, // mouse leave row
-          };
+            onContextMenu: event => {}, // right button click row
+            onMouseEnter: event => {}, // mouse enter row
+            onMouseLeave: event => {} // mouse leave row
+          }
         }}
       />
       <Modal
@@ -80,6 +83,6 @@ function Tabla(props) {
         {Componente}
       </Modal>
     </div>
-  );
+  )
 }
-export default Tabla;
+export default Tabla

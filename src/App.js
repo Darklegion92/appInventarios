@@ -32,6 +32,7 @@ import InformeInventarios from './componentes/InformeInventarios'
 import ParametrosInventario from './componentes/ParametrosInventario'
 import Clientes from './componentes/Clientes'
 import InformeCRM from './componentes/InformeCRM'
+import GestionUsuarios from './componentes/GestionUsuarios'
 import Index from './componentes/Index'
 import { API } from './config/keys'
 import './App.css'
@@ -45,7 +46,6 @@ function App () {
   const [ventas, setVentas] = useState(0)
   const [modalAlerta, setModalAlerta] = useState(false)
   const componentRef = useRef()
-  console.log(usuario)
   const handleOk = async () => {
     const ventas = await traerVentas()
     setVentas(ventas)
@@ -192,7 +192,7 @@ function App () {
       )}
       {usuario && seleccion === 'CRM-Clientes' && <Clientes />}
       {usuario && seleccion === 'CRM-Informes' && <InformeCRM />}
-
+      {usuario && seleccion === 'Configuración-Usuarios' && <GestionUsuarios />}
       <Modal
         title='Imprimir Cierre'
         visible={modalAlerta}
