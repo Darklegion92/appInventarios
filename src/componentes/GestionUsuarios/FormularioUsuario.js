@@ -2,9 +2,18 @@ import React from 'react'
 import { Form, Input, Select, Button } from 'antd'
 
 const { Option } = Select
-function FormularioUsuario ({ datosUsuario, sucursales }) {
+function FormularioUsuario ({ datosUsuario, sucursales, onFinish }) {
   return (
-    <Form layout='vertical' style={{ width: '60%', margin: 'auto' }}>
+    <Form
+      layout='vertical'
+      style={{ width: '60%', margin: 'auto' }}
+      onFinish={onFinish}
+      fields={[
+        { name: 'usuario', value: datosUsuario.usuario },
+        { name: 'nombre', value: datosUsuario.nombre },
+        { name: 'sucursal', value: datosUsuario.nombresucursal, key: 0 }
+      ]}
+    >
       <Form.Item
         name='usuario'
         label='Usuario'
@@ -18,10 +27,13 @@ function FormularioUsuario ({ datosUsuario, sucursales }) {
         name='password'
         label='Contraseña'
         rules={[
-          { required: true, message: 'Campo contraseña no puede estar vacío' }
+          {
+            required: datosUsuario ? false : true,
+            message: 'Campo contraseña no puede estar vacío'
+          }
         ]}
       >
-        <Input />
+        <Input.Password />
       </Form.Item>
       <Form.Item
         name='nombre'
@@ -37,7 +49,11 @@ function FormularioUsuario ({ datosUsuario, sucursales }) {
         label='Sucursal'
         rules={[{ required: true, message: 'Debe elegir una sucursal válida' }]}
       >
-        <Select />
+        <Select>
+          {sucursales.map(sucursal => {
+            return <Option key={sucursal.id}>{sucursal.nombre}</Option>
+          })}
+        </Select>
       </Form.Item>
       <Form.Item>
         <Button htmlType='submit' type='primary'>

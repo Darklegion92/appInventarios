@@ -114,6 +114,33 @@ const GlobalProvider = ({ children }) => {
     console.log(observacion)
     return 'error momentaneo'
   }
+
+  const registrarUsuario = async (newUser, user) => {
+    const token = localStorage.getItem('Token')
+    let json = {}
+    console.log(user)
+    if (user !== null) {
+      json = await axios.put(
+        API + 'actualizar',
+        { newUser, user },
+        {
+          headers: {
+            authorization: token
+          }
+        }
+      )
+    } else {
+      json = await axios.post(API + 'registrar', newUser, {
+        headers: {
+          authorization: token
+        }
+      })
+    }
+    if (json.status === 200) {
+      constultarUsuarios()
+      return true
+    } else return false
+  }
   useEffect(() => {
     cargarParametrosIniciales()
   }, [])
@@ -131,6 +158,7 @@ const GlobalProvider = ({ children }) => {
         usuario,
         usuarios,
         sucursales,
+        registrarUsuario,
         articulosDescripcion,
         guardarEntrada
       }}

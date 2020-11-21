@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Row, Col, Typography, Table, Button, Space, Modal } from 'antd'
 import { GlobalContext } from '../../context/GlobalContext'
 import FormularioUsuario from './FormularioUsuario'
@@ -29,8 +29,21 @@ const cols = [
 ]
 
 function GestionUsuarios () {
-  const { usuarios } = useContext(GlobalContext)
+  const { usuarios, sucursales, registrarUsuario } = useContext(GlobalContext)
+  const [usuario, setUsuario] = useState(null)
+  const [modal, setModal] = useState({ visible: false })
 
+  const onFinish = async values => {
+    const resp = await registrarUsuario(values, usuario)
+    if (resp === true) {
+      setModal({ visible: false })
+    }
+  }
+
+  const onClick = () => {
+    setUsuario(null)
+    setModal({ titulo: 'CREAR USUARIO', visible: true })
+  }
   return (
     <Col style={{ marginTop: '25px' }}>
       <Space direction='vertical' size={30} style={{ width: '100%' }}>
@@ -42,6 +55,17 @@ function GestionUsuarios () {
             columns={cols}
             style={{ width: '70%' }}
             dataSource={usuarios}
+            onRow={(record, rowIndex) => {
+              return {
+                onDoubleClick: event => {
+                  setUsuario(record)
+                  setModal({
+                    titulo: 'ACTUALIZAR USUARIO "' + record.usuario + '"',
+                    visible: true
+                  })
+                }
+              }
+            }}
           />
         </Row>
         <Row justify='center'>
@@ -50,11 +74,17 @@ function GestionUsuarios () {
           </Text>
         </Row>
         <Row justify='center'>
-          <Button type='primary'>NUEVO</Button>
+          <Button type='primary' onClick={onClick}>
+            NUEVO
+          </Button>
         </Row>
       </Space>
-      <Modal footer={null} visible={true} title='GUARDAR USUARIO'>
-        <FormularioUsuario />
+      <Modal footer={null} visible={modal.visible} title={modal.titulo}>
+        <FormularioUsuario
+          sucursales={sucursales}
+          onFinish={onFinish}
+          datosUsuario={usuario}
+        />
       </Modal>
     </Col>
   )
