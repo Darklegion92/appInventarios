@@ -3,7 +3,6 @@ import { Input, Col, Row, Form, Select, Modal, Typography } from "antd";
 
 const { Text } = Typography;
 const { Option } = Select;
-const { Item } = Form;
 
 function Encabezado({
   bodegas,
@@ -18,7 +17,6 @@ function Encabezado({
   const [codigo, setCodigo] = useState();
   const [precio, setPrecio] = useState(0);
   const [cantidad, setCantidad] = useState(1);
-  const [cambiar, setCambiar] = useState(false);
   const [cargandoParams, setCargandoParams] = useState(true);
   const [artDescripcion, setArtDescripcion] = useState();
   const [codigoEstado, setCodigoEstado] = useState(true);
@@ -54,7 +52,6 @@ function Encabezado({
     setPrecio(0);
     setCodigo("");
     setArtDescripcion("");
-    setCambiar(false);
     settotalArticulo(0);
     refCodigo.current.select();
   };
@@ -99,14 +96,13 @@ function Encabezado({
           setCodigo(item.value.toUpperCase());
           const art = await articulosCodigo(item.value);
           if (art === "ERROR") {
-            setCambiar(true);
             setArtDescripcion("");
             console.log("Articulo no Encontrado");
           } else {
+            setDescripcionSelect(art.descripcion);
             setArtDescripcion(art.descripcion);
             setPrecioEstado(false);
             setCantidadEstado(false);
-            setCambiar(true);
             refPrecioU.current.select();
           }
         } else {
@@ -171,38 +167,27 @@ function Encabezado({
       </Col>
       <Col span={10}>
         <Text>Descripción:</Text>
-        {cambiar ? (
-          <Input
-            value={artDescripcion}
-            disabled
-            style={{ width: "100%" }}
-            id="descripcion"
-          />
-        ) : (
-          <Select
-            ref={refDescripcion}
-            disabled={descripcionEstado}
-            showSearch
-            labelInValue={true}
-            value={descripcionSelect}
-            optionFilterProp="children"
-            onSearch={onSearch}
-            value={descripcionSelect}
-            onChange={onChangeDescripcion}
-            style={{ width: "100%" }}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {articulos.map((articulo) => {
-              return (
-                <Option key={articulo.idarticulo}>
-                  {articulo.descripcion}
-                </Option>
-              );
-            })}
-          </Select>
-        )}
+
+        <Select
+          ref={refDescripcion}
+          disabled={descripcionEstado}
+          showSearch
+          labelInValue={false}
+          value={artDescripcion}
+          optionFilterProp="children"
+          onSearch={onSearch}
+          onChange={onChangeDescripcion}
+          style={{ width: "100%" }}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {articulos.map((articulo) => {
+            return (
+              <Option key={articulo.codigo}>{articulo.descripcion}</Option>
+            );
+          })}
+        </Select>
       </Col>
       <Col span={3}>
         <Text>Precio Und:</Text>
