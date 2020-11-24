@@ -1,25 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import { Input, Select, Typography } from "antd";
 
 import "./styles.css";
+const { Option } = Select;
+const { Text } = Typography;
 
 const FormularioGrupos = (props) => {
-  const { nombre, setNombre, idGrupo } = props;
+  const { datos, setDatos, grupos } = props;
+  const [subgrupo, setSubgrupo] = useState({});
+
+  useEffect(() => {
+    setSubgrupo(datos.nombre);
+  }, [datos]);
 
   const onChangeNombre = (e) => {
-    const { value } = e.target;
-    setNombre(value);
+    setSubgrupo(e.target.value);
+    let data = datos;
+    data.nombre = e.target.value;
+    setDatos(data);
   };
   return (
     <div className="formulario-grupos">
-    <Input
-        value={idGrupo}
+      <Text>Grupo</Text>
+      <Select
+        value={datos.nombregrupo}
         placeholder="Nombre Grupo"
         maxLength={20}
-        disabled
-      />
+        disabled={datos.nombre ? true : false}
+        style={{ width: "100%", marginBottom: "10px" }}
+      >
+        {grupos &&
+          grupos.map((grupo) => {
+            return <Option key={grupo.idgrupo}>{grupo.nombre}</Option>;
+          })}
+      </Select>
+      <Text>Nombre Subgrupo</Text>
       <Input
-        value={nombre}
+        value={subgrupo}
         placeholder="Nombre Grupo"
         maxLength={20}
         onChange={onChangeNombre}

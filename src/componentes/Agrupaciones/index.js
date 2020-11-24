@@ -14,12 +14,9 @@ export default function Parametros() {
   const [datosGrupo, setDatosGrupo] = useState();
   const [datosMarca, setDatosMarca] = useState();
   const [datosSubGrupo, setDatosSubGrupo] = useState();
-  const [idGrupo, setIdGrupo] = useState(0);
-  const [nombreGrupo, setNombreGrupo] = useState();
-  const [idMarca, setIdMarca] = useState(0);
-  const [nombreMarca, setNombreMarca] = useState();
-  const [idSubGrupo, setIdSubGrupo] = useState(0);
-  const [nombreSubGrupo, setNombreSubGrupo] = useState();
+  const [grupo, setGrupo] = useState({});
+  const [subGrupo, setSubGrupo] = useState({});
+  const [marca, setMarca] = useState({});
 
   const okGrupo = async (editar) => {
     try {
@@ -27,8 +24,8 @@ export default function Parametros() {
         const res = await axios.put(
           API + "agrupaciones/grupos",
           {
-            idgrupo: idGrupo,
-            nombre: nombreGrupo,
+            idgrupo: grupo.idgrupo,
+            nombre: grupo.nombre,
           },
           {
             headers: {
@@ -43,7 +40,7 @@ export default function Parametros() {
         const res = await axios.post(
           API + "agrupaciones/grupos",
           {
-            nombre: nombreGrupo,
+            nombre: grupo.nombre,
           },
           {
             headers: {
@@ -66,9 +63,9 @@ export default function Parametros() {
         const res = await axios.put(
           API + "agrupaciones/subgrupos",
           {
-            idsubgrupo: idSubGrupo,
-            nombre: nombreSubGrupo,
-            idgrupo: idGrupo,
+            idsubgrupo: subGrupo.idsubgrupo,
+            nombre: subGrupo.nombre,
+            idgrupo: grupo.idgrupo,
           },
           {
             headers: {
@@ -83,8 +80,8 @@ export default function Parametros() {
         const res = await axios.post(
           API + "agrupaciones/subgrupos",
           {
-            nombre: nombreSubGrupo,
-            idgrupo: idGrupo,
+            nombre: grupo.nombre,
+            idgrupo: grupo.idgrupo,
           },
           {
             headers: {
@@ -107,8 +104,8 @@ export default function Parametros() {
         const res = await axios.put(
           API + "agrupaciones/marcas",
           {
-            idmarca: idMarca,
-            nombre: nombreMarca,
+            idmarca: marca.idmarca,
+            nombre: marca.nombre,
           },
           {
             headers: {
@@ -123,7 +120,7 @@ export default function Parametros() {
         const res = await axios.post(
           API + "agrupaciones/marcas",
           {
-            nombre: nombreMarca,
+            nombre: marca.nombre,
           },
           {
             headers: {
@@ -141,22 +138,21 @@ export default function Parametros() {
   };
 
   const cargarGrupo = (record) => {
-    setIdGrupo(record.idgrupo);
-    setNombreGrupo(record.nombre);
+    setGrupo(record);
   };
 
   const cargarSubGrupo = (record) => {
-    setIdSubGrupo(record.idsubgrupo);
-    setNombreSubGrupo(record.nombre);
+    setSubGrupo(record);
   };
 
   const cargarMarca = (record) => {
-    setIdMarca(record.idmarca);
-    setNombreMarca(record.nombre);
+    setMarca(record);
   };
 
   const onClickGrupo = async (record) => {
-    setIdGrupo(record.idgrupo);
+    const grup = grupo;
+    grup.idgrupo = record.idgrupo;
+    setGrupo(grup);
 
     const subgrupos = await axios.get(
       API + "agrupaciones/subgrupos/" + record.idgrupo,
@@ -258,9 +254,8 @@ export default function Parametros() {
           onClick={onClickGrupo}
           okButton={okGrupo}
           edicion={cargarGrupo}
-          Componente={
-            <FormularioGrupos nombre={nombreGrupo} setNombre={setNombreGrupo} />
-          }
+          setBodega={setGrupo}
+          Componente={<FormularioGrupos datos={grupo} setDatos={setGrupo} />}
         />
         <TablaParametros
           titulo="SUB GRUPO"
@@ -269,11 +264,12 @@ export default function Parametros() {
           paginacion={5}
           okButton={okSubGrupo}
           edicion={cargarSubGrupo}
+          setBodega={setSubGrupo}
           Componente={
             <FormularioSubGrupos
-              nombre={nombreSubGrupo}
-              setNombre={setNombreSubGrupo}
-              idGrupo={idGrupo}
+              datos={subGrupo}
+              setDatos={setSubGrupo}
+              grupos={datosGrupo}
             />
           }
         />
@@ -285,9 +281,7 @@ export default function Parametros() {
         paginacion={15}
         okButton={okMarca}
         edicion={cargarMarca}
-        Componente={
-          <FormularioMarcas nombre={nombreMarca} setNombre={setNombreMarca} />
-        }
+        Componente={<FormularioMarcas datos={marca} setDatos={setMarca} />}
       />
     </div>
   );

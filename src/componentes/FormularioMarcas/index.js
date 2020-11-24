@@ -4,16 +4,23 @@ import { Input } from "antd";
 import "./styles.css";
 
 const FormularioGrupos = (props) => {
-  const { nombre, setNombre } = props;
+  const { datos, setDatos } = props;
+  const [marca, setMarca] = useState();
+
+  useEffect(() => {
+    setMarca(datos.nombre);
+  }, [datos]);
 
   const onChangeNombre = (e) => {
-    const { value } = e.target;
-    setNombre(value);
+    setMarca(e.target.value);
+    let data = datos;
+    data.nombre = e.target.value;
+    setDatos(data);
   };
   return (
     <div className="formulario-grupos">
       <Input
-        value={nombre}
+        value={marca}
         placeholder="Nombre Marca"
         maxLength={20}
         onChange={onChangeNombre}

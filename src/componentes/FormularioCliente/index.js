@@ -33,7 +33,7 @@ function FormularioProveedor(props) {
       setDireccion(datos.direccion);
       setIdTipo_documento(datos.idtipo_documento);
       setDocumentoTipo({ key: datos.idtipo_documento, value: datos.prefijo });
-      setIdListaPrecios({ key: datos.idlistaprecios, value: datos.nombre });
+      setListaPrecios({ key: datos.idlistaprecios, value: datos.nombre });
     } else {
       idcliente = "";
       setDocumento("");
@@ -77,7 +77,7 @@ function FormularioProveedor(props) {
 
   const onChangeListaPrecios = (value) => {
     setIdListaPrecios(value.key);
-    setListaPrecios({ key: value.key, value: value.value });
+    setListaPrecios({ key: value.key, value: value.value, label: value.label });
   };
 
   const onChangeNombres = (e) => {

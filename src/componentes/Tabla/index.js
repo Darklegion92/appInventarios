@@ -33,7 +33,7 @@ function Tabla(props) {
   };
 
   const handleNuevo = async (e) => {
-    setBodega({});
+    if (setBodega) setBodega({});
     setEditar(false);
     setModal(true);
   };

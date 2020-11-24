@@ -141,6 +141,25 @@ const GlobalProvider = ({ children }) => {
       return true;
     } else return false;
   };
+
+  const consultarFactura = async (prefijo, numero) => {
+    console.log(prefijo);
+    const datos = await axios.get(
+      API + "facturasventa/numero",
+
+      {
+        headers: {
+          authorization: sessionStorage.getItem("Token"),
+        },
+        params: { prefijo, numero },
+      }
+    );
+    if (datos.status === 200) {
+      return datos.data;
+    }
+    return "ERROR";
+  };
+
   useEffect(() => {
     cargarParametrosIniciales();
   }, []);
@@ -151,6 +170,7 @@ const GlobalProvider = ({ children }) => {
         bodegas,
         entrada,
         articulosCodigo,
+        consultarFactura,
         articulos,
         setSeleccion,
         seleccion,

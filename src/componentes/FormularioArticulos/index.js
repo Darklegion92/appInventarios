@@ -35,6 +35,7 @@ function FormularioArticulos(props) {
     marca,
     tarifa,
     estado,
+    onBlur,
   } = props;
 
   const colnprecios = [
@@ -60,6 +61,7 @@ function FormularioArticulos(props) {
           }}
           value={codigo}
           size={{ width: 150 }}
+          onBlur={onBlur}
         />
         <InputText
           text="Descripción"

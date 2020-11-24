@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Table, Button, Modal } from "antd";
-import { EditOutlined, FileOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FileOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 import Encabezado from "./Encabezado";
@@ -72,23 +72,25 @@ export default function Proveedores() {
 
   const onClickNuevo = (e) => {
     setTitulo("NUEVO CLIENTE");
+    setDatosEnvio({});
+    setDatosEditar({});
     setEditar(false);
     setModal(true);
   };
-  const handleOk = (e) => {
-    
+  const handleOk = async (e) => {
     if (editar) {
       datosEnvio.idcliente = datosEditar.idcliente;
-      const res = axios.put(API + "clientes/editar", datosEnvio, {
+      const res = await axios.put(API + "clientes/editar", datosEnvio, {
         headers: {
           authorization: sessionStorage.getItem("Token"),
         },
       });
       if (res.status === 200) {
+        cargarDatos();
         setDatosTabla(res.data);
       }
     } else {
-      const res = axios.post(
+      const res = await axios.post(
         API + "clientes/crear",
         {
           idtipo_documento: datosEnvio.idtipo_documento,
@@ -97,7 +99,7 @@ export default function Proveedores() {
           apellidos: datosEnvio.apellidos,
           direccion: datosEnvio.direccion,
           telefono: datosEnvio.telefono,
-          idlistaprecios:datosEnvio.idlistaprecios
+          idlistaprecios: datosEnvio.idlistaprecios,
         },
         {
           headers: {
@@ -106,6 +108,7 @@ export default function Proveedores() {
         }
       );
       if (res.status === 200) {
+        cargarDatos();
         setDatosTabla(res.data);
         setDatosEditar([]);
       }
