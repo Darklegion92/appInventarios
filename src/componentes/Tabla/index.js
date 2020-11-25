@@ -18,6 +18,7 @@ function Tabla(props) {
     edicion,
     setBodega,
   } = props;
+
   const [modal, setModal] = useState(false);
   const [editar, setEditar] = useState(false);
 

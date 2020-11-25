@@ -27,8 +27,10 @@ const GlobalProvider = ({ children }) => {
       setBodegas(respBodegas.data);
     }
     const datos = await axios.get(API + "parametros/sucursales");
-    setSucursales(datos.data);
-    constultarUsuarios();
+    if (datos.status === 200) {
+      setSucursales(datos.data);
+      constultarUsuarios();
+    }
   };
 
   const constultarUsuarios = async () => {

@@ -80,8 +80,8 @@ export default function Parametros() {
         const res = await axios.post(
           API + "agrupaciones/subgrupos",
           {
-            nombre: grupo.nombre,
-            idgrupo: grupo.idgrupo,
+            nombre: subGrupo.nombre,
+            idgrupo: subGrupo.idgrupo,
           },
           {
             headers: {

@@ -19,11 +19,18 @@ const FormularioGrupos = (props) => {
     data.nombre = e.target.value;
     setDatos(data);
   };
+  const onChangeGrupo = (e) => {
+    let data = datos;
+    data.idgrupo = e;
+    setDatos(data);
+  };
+
   return (
     <div className="formulario-grupos">
       <Text>Grupo</Text>
       <Select
         value={datos.nombregrupo}
+        onChange={onChangeGrupo}
         placeholder="Nombre Grupo"
         maxLength={20}
         disabled={datos.nombre ? true : false}
