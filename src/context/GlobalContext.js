@@ -145,7 +145,6 @@ const GlobalProvider = ({ children }) => {
   };
 
   const consultarFactura = async (prefijo, numero) => {
-    console.log(prefijo);
     const datos = await axios.get(
       API + "facturasventa/numero",
 

@@ -17,6 +17,7 @@ const Pie = (props) => {
     facturaNumero,
     onChange,
     totalFactura,
+    datosTabla,
   } = props;
   const { consultarFactura } = useContext(GlobalContext);
 
@@ -38,27 +39,30 @@ const Pie = (props) => {
   });
 
   const onClick = async () => {
-    const res = await consultarFactura(prefijo, facturaNumero);
-
-    if (res !== "ERROR") {
-      console.log(res);
-      setDatos(res.articulos);
-      let tot = 0;
-      let iv = 0;
-      await res.articulos.map((articulo) => {
-        tot = tot + articulo.total;
-        iv = iv + articulo.ivaarticulo;
-      });
-
-      setTotal(tot);
-      setIva(iv);
-      setRecibido(res.cambio);
-      setDocumento(res.documento);
-      setNombre(res.nombre);
-      setRecibido(res.recibido);
-      handlePrint();
+    if (datosTabla.length > 0) {
+      message.error("Debes Finalizar la Factura antes de imprimir");
     } else {
-      message.error("Error al Guardar");
+      const res = await consultarFactura(prefijo, facturaNumero);
+
+      if (res !== "ERROR") {
+        setDatos(res.articulos);
+        let tot = 0;
+        let iv = 0;
+        await res.articulos.map((articulo) => {
+          tot = tot + articulo.total;
+          iv = iv + articulo.ivaarticulo;
+        });
+
+        setTotal(tot);
+        setIva(iv);
+        setRecibido(res.cambio);
+        setDocumento(res.documento);
+        setNombre(res.nombre);
+        setRecibido(res.recibido);
+        handlePrint();
+      } else {
+        message.error("Error al Guardar");
+      }
     }
   };
 
@@ -72,7 +76,7 @@ const Pie = (props) => {
       <div>
         <div>
           <Text>Cantidad Items:</Text>
-          <Text>{datos.lenght}</Text>
+          <Text>{datos.length}</Text>
         </div>
         <div>
           <Text>Total Factura:</Text>

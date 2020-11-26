@@ -63,7 +63,7 @@ function FacturasVentas() {
 
   const grabarFactura = async () => {
     if (cambio >= 0) {
-      if (totalFactura > 0 && recibido > 0) {
+      if (totalFactura > 0 && cambio >= 0) {
         setModalConformacion(true);
         setDisableok(false);
         setIconoConfirmacion(
@@ -88,7 +88,7 @@ function FacturasVentas() {
             }}
           />
         );
-        setMsgAlerta("La factura ni recibido no puede estar en 0");
+        setMsgAlerta("La factura y el recibido no pueden estar en 0");
         setModalAlerta(true);
       }
     } else {
@@ -126,8 +126,6 @@ function FacturasVentas() {
 
   const handleOkAlerta = () => {
     setModalAlerta(false);
-    imprimir(datosTabla, totalFactura, totalIVA, prefijo, numero, cambio);
-    cancelar();
     cargarDatos();
   };
 
@@ -303,7 +301,6 @@ function FacturasVentas() {
   const asignarCodigo = (id) => {
     articulos.forEach((dato) => {
       if (dato.idarticulo == id) {
-        console.log(dato);
         setValorUni(dato.valor);
         setCodigo(dato.codigo);
         setArticulo(dato);
@@ -315,7 +312,7 @@ function FacturasVentas() {
 
   const asignarDocumento = (id) => {
     datosNombre.forEach((dato) => {
-      if (dato.id == id) {
+      if (dato.id === id) {
         setDocumento(dato.value);
         return true;
       }
@@ -537,6 +534,7 @@ function FacturasVentas() {
           onChange={onChange}
           recibido={recibido}
           setRecibido={setRecibido}
+          datosTabla={datosTabla}
         />
       </div>
       <Modal
@@ -559,8 +557,8 @@ function FacturasVentas() {
         visible={modalAlerta}
         onOk={handleOkAlerta}
         onCancel={handledCancelAlerta}
-        cancelButtonProps={{ disabled: !disableok }}
-        okButtonProps={{ disabled: disableok }}
+        cancelButtonProps={{ disabled: disableok }}
+        okButtonProps={{ disabled: !disableok }}
         bodyStyle={{
           display: "flex",
           "align-items": "center",
