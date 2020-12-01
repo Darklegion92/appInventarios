@@ -166,6 +166,10 @@ function Encabezado(props) {
     refCodigo.current.select();
   };
 
+  const onChangeCodigo = (e) => {
+    setCodigo(e.target.value);
+  };
+
   return (
     <div>
       <Input.Group>
@@ -228,7 +232,7 @@ function Encabezado(props) {
             <Text>Código</Text>
             <Input
               value={codigo}
-              disabled={disabledCodigo}
+              onChange={onChangeCodigo}
               onPressEnter={onPressEnterCodigo}
               placeholder="Código"
               size="small"
@@ -275,7 +279,6 @@ function Encabezado(props) {
           <Col span={3}>
             <Text>Cantidad</Text>
             <Input
-              disabled={disabledCantidad}
               placeholder="Cantidad"
               value={cantidad}
               size="small"
