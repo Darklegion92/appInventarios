@@ -137,7 +137,7 @@ function Encabezado (props) {
   }
 
   const onPressEnterCantidad = e => {
-    if (articulo.stock >= e) {
+    if (articulo.stock >= cantidad) {
       if (valorTotal > 0) {
         if (guardarTabla()) {
           refCodigo.current.select()

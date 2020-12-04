@@ -1,13 +1,13 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
-import { Typography, Button, Input, message } from "antd";
-import { useReactToPrint } from "react-to-print";
-import InputNumber from "../InputNumber";
-import { GlobalContext } from "../../context/GlobalContext";
-import FormatoFactura from "./FormatoFactura";
+import React, { useRef, useState, useContext, useEffect } from 'react'
+import { Typography, Button, Input, message } from 'antd'
+import { useReactToPrint } from 'react-to-print'
+import InputNumber from '../InputNumber'
+import { GlobalContext } from '../../context/GlobalContext'
+import FormatoFactura from './FormatoFactura'
 
-const { Text } = Typography;
+const { Text } = Typography
 
-const Pie = (props) => {
+const Pie = props => {
   const {
     onClickok,
     onClickCancel,
@@ -17,59 +17,59 @@ const Pie = (props) => {
     facturaNumero,
     onChange,
     totalFactura,
-    datosTabla,
-  } = props;
-  const { consultarFactura } = useContext(GlobalContext);
+    datosTabla
+  } = props
+  const { consultarFactura } = useContext(GlobalContext)
 
-  const [datos, setDatos] = useState({});
-  const [total, setTotal] = useState(0);
-  const [iva, setIva] = useState(0);
-  const [nombre, setNombre] = useState();
-  const [cambio, setCambio] = useState(0);
-  const [documento, setDocumento] = useState();
+  const [datos, setDatos] = useState({})
+  const [total, setTotal] = useState(0)
+  const [iva, setIva] = useState(0)
+  const [nombre, setNombre] = useState()
+  const [cambio, setCambio] = useState(0)
+  const [documento, setDocumento] = useState()
 
-  const componentRef = useRef();
+  const componentRef = useRef()
 
   useEffect(() => {
-    setTotal(totalFactura);
-  }, [totalFactura]);
+    setTotal(totalFactura)
+  }, [totalFactura])
 
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+    content: () => componentRef.current
+  })
 
   const onClick = async () => {
     if (datosTabla.length > 0) {
-      message.error("Debes Finalizar la Factura antes de imprimir");
+      message.error('Debes Finalizar la Factura antes de imprimir')
     } else {
-      const res = await consultarFactura(prefijo, facturaNumero);
+      const res = await consultarFactura(prefijo, facturaNumero)
 
-      if (res !== "ERROR") {
-        setDatos(res.articulos);
-        let tot = 0;
-        let iv = 0;
-        await res.articulos.map((articulo) => {
-          tot = tot + articulo.total;
-          iv = iv + articulo.ivaarticulo;
-        });
+      if (res !== 'ERROR') {
+        setDatos(res.articulos)
+        let tot = 0
+        let iv = 0
+        await res.articulos.map(articulo => {
+          tot = tot + articulo.total
+          iv = iv + articulo.ivaarticulo
+        })
 
-        setTotal(tot);
-        setIva(iv);
-        setRecibido(res.cambio);
-        setDocumento(res.documento);
-        setNombre(res.nombre);
-        setRecibido(res.recibido);
-        handlePrint();
+        setTotal(tot)
+        setIva(iv)
+        setRecibido(res.cambio)
+        setDocumento(res.documento)
+        setNombre(res.nombre)
+        setRecibido(res.recibido)
+        handlePrint()
       } else {
-        message.error("Error al Guardar");
+        message.error('Error al Guardar')
       }
     }
-  };
+  }
 
-  const onChangeRecibido = (e) => {
-    setRecibido(e);
-    setCambio(e - total);
-  };
+  const onChangeRecibido = e => {
+    setRecibido(e)
+    setCambio(e - total)
+  }
 
   return (
     <>
@@ -88,14 +88,14 @@ const Pie = (props) => {
         </div>
       </div>
       <div>
-        <img src="img/logo.png" alt="logo" />
+        <img src='img/logo.png' alt='logo' />
       </div>
       <div>
         <InputNumber
           onChange={onChangeRecibido}
           value={recibido}
-          text="Recibido"
-          size={{ width: "100%" }}
+          text='Recibido'
+          size={{ width: '100%' }}
           disabled={false}
         />
         <div>
@@ -106,7 +106,7 @@ const Pie = (props) => {
       <div>
         <Text>Factura Imprimir</Text>
         <Input value={facturaNumero} onChange={onChange} />
-        <div style={{ display: "none" }}>
+        <div style={{ display: 'none' }}>
           <FormatoFactura
             ref={componentRef}
             prefijo={prefijo}
@@ -122,24 +122,24 @@ const Pie = (props) => {
         <Button
           onClick={onClick}
           style={{
-            color: "white",
-            backgroundColor: "orange",
-            borderRadius: "10px",
+            color: 'white',
+            backgroundColor: 'orange',
+            borderRadius: '10px'
           }}
         >
           IMPRIMIR
         </Button>
       </div>
       <div>
-        <Button type="primary" shape="round" onClick={onClickok}>
+        <Button type='primary' shape='round' onClick={onClickok}>
           GUARDAR
         </Button>
-        <Button type="primary" shape="round" danger onClick={onClickCancel}>
+        <Button type='primary' shape='round' danger onClick={onClickCancel}>
           CANCELAR
         </Button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Pie;
+export default Pie

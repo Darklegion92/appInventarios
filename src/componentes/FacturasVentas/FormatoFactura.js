@@ -17,11 +17,11 @@ export default class FormatoFactura extends React.Component {
     return (
       <div className="formato-facturaventa">
         <div className="encabezado">
-          <div>PREMIUN SHOP CARNICERIA</div>
-          <div>NIT. 88215368</div>
-          <div>Calle 35 # 3-50 SABANA</div>
-          <div>LOS PATIOS</div>
-          <div>Telf. 3125920184</div>
+          <div>GALLERY AIRGUNS COLOMBIA</div>
+          <div>NIT. 1.090.363.231-0</div>
+          <div>Calle 11 AV 0 Centro </div>
+          <div>Comercial Gran Bulevar Local 143</div>
+          <div>Telf. 3003922227</div>
           <div>DATOS CLIENTE</div>
           <div>Documento: {documento}</div>
           <div>Cliente: {nombre}</div>

@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons'
 import Tabla from './Tabla'
 import Encabezado from './Encabezado'
-import FormatoFactura from './FormatoFactura'
+import FormatoFactura from './FormatoFactura_char'
 import Pie from './Pie'
 import { API } from '../../config/keys'
 import { GlobalContext } from '../../context/GlobalContext'
@@ -239,7 +239,7 @@ function FacturasVentas () {
     })
   }
 
-  const onDoubleClick = (e, record) => {
+  const onDoubleClick = record => {
     const d = eliminarArray(datosTabla, record)
     setDatosTabla(d)
     let iva = 0
