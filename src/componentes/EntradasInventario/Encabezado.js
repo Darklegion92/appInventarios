@@ -1,156 +1,156 @@
-﻿import React, { useState, useRef, useEffect } from "react";
-import { Input, Col, Row, Form, Select, Modal, Typography } from "antd";
+﻿import React, { useState, useRef, useEffect, useContext } from 'react'
+import { Input, Col, Row, Form, Select, Modal, Typography } from 'antd'
 
-const { Text } = Typography;
-const { Option } = Select;
+const { Text } = Typography
+const { Option } = Select
 
-function Encabezado({
+function Encabezado ({
   bodegas,
   articulos,
   articulosCodigo,
   agregarDatos,
   buscarArticulo,
   bodegaEstado,
-  setBodegaEstado,
+  setBodegaEstado
 }) {
-  const [idbodega, setIdBodega] = useState(0);
-  const [codigo, setCodigo] = useState();
-  const [precio, setPrecio] = useState(0);
-  const [cantidad, setCantidad] = useState(1);
-  const [cargandoParams, setCargandoParams] = useState(true);
-  const [artDescripcion, setArtDescripcion] = useState();
-  const [codigoEstado, setCodigoEstado] = useState(true);
-  const [descripcionEstado, setDescripcionEstado] = useState(true);
-  const [precioEstado, setPrecioEstado] = useState(true);
-  const [cantidadEstado, setCantidadEstado] = useState(true);
-  const [totalArticulo, settotalArticulo] = useState(0);
-  const [descripcionSelect, setDescripcionSelect] = useState({});
-  const refDescripcion = useRef(null);
-  const refCodigo = useRef(null);
-  const refCantidad = useRef(null);
-  const refPrecioU = useRef(null);
+  const [idbodega, setIdBodega] = useState(0)
+  const [codigo, setCodigo] = useState()
+  const [precio, setPrecio] = useState(0)
+  const [cantidad, setCantidad] = useState(1)
+  const [cargandoParams, setCargandoParams] = useState(true)
+  const [artDescripcion, setArtDescripcion] = useState()
+  const [codigoEstado, setCodigoEstado] = useState(true)
+  const [descripcionEstado, setDescripcionEstado] = useState(true)
+  const [precioEstado, setPrecioEstado] = useState(true)
+  const [cantidadEstado, setCantidadEstado] = useState(true)
+  const [totalArticulo, settotalArticulo] = useState(0)
+  const [descripcionSelect, setDescripcionSelect] = useState({})
+  const refDescripcion = useRef(null)
+  const refCodigo = useRef(null)
+  const refCantidad = useRef(null)
+  const refPrecioU = useRef(null)
 
-  const onChangeBodegas = (key) => {
-    iniciarRegistro();
-    setIdBodega(key);
-  };
+  const onChangeBodegas = key => {
+    iniciarRegistro()
+    setIdBodega(key)
+  }
 
   useEffect(() => {
-    setCargandoParams(false);
-  }, []);
+    setCargandoParams(false)
+  }, [])
 
   useEffect(() => {
     if (!bodegaEstado) {
-      iniciarRegistro();
+      iniciarRegistro()
     }
-  }, [bodegaEstado]);
+  }, [bodegaEstado])
 
   const iniciarRegistro = () => {
-    setCodigoEstado(false);
-    setDescripcionEstado(false);
-    setCantidad(1);
-    setPrecio(0);
-    setCodigo("");
-    setArtDescripcion("");
-    settotalArticulo(0);
-    refCodigo.current.select();
-  };
+    setCodigoEstado(false)
+    setDescripcionEstado(false)
+    setCantidad(1)
+    setPrecio(0)
+    setCodigo('')
+    setArtDescripcion('')
+    settotalArticulo(0)
+    refCodigo.current.select()
+  }
 
-  const onChangeDescripcion = (e) => {
-    setDescripcionSelect(e);
-    setCodigo(e.value);
-    setArtDescripcion(e.label);
-    setCantidadEstado(false);
-    setPrecioEstado(false);
-    settotalArticulo(precio);
-    refPrecioU.current.select();
-  };
+  const onChangeDescripcion = e => {
+    const data = e.split('|')
+    setArtDescripcion(data[1])
+    setCodigo(data[0])
+    setCantidadEstado(false)
+    setPrecioEstado(false)
+    settotalArticulo(precio)
+    refPrecioU.current.select()
+  }
 
-  const onChange = (e) => {
-    const item = e.target;
+  const onChange = e => {
+    const item = e.target
 
     switch (item.id) {
-      case "codigo":
-        setCodigo(item.value);
-        break;
-      case "precioUnt":
-        setPrecio(item.value);
-        break;
-      case "cantidad":
-        settotalArticulo(item.value * precio);
-        setCantidad(item.value);
-        break;
+      case 'codigo':
+        setCodigo(item.value)
+        break
+      case 'precioUnt':
+        setPrecio(item.value)
+        break
+      case 'cantidad':
+        settotalArticulo(item.value * precio)
+        setCantidad(item.value)
+        break
 
       default:
-        break;
+        break
     }
-  };
-  const onSearch = (e) => {
-    buscarArticulo(e.toUpperCase());
-  };
-  const onPressEnter = async (e) => {
-    const item = e.target;
-    if (item.id === "codigo") {
+  }
+  const onSearch = e => {
+    buscarArticulo(e.toUpperCase())
+  }
+  const onPressEnter = async e => {
+    const item = e.target
+    if (item.id === 'codigo') {
       if (idbodega > 0) {
         if (item.value) {
-          setCodigo(item.value.toUpperCase());
-          const art = await articulosCodigo(item.value);
-          if (art === "ERROR") {
-            setArtDescripcion("");
-            console.log("Articulo no Encontrado");
+          setCodigo(item.value.toUpperCase())
+          const art = await articulosCodigo(item.value)
+          if (art === 'ERROR') {
+            setArtDescripcion('')
+            console.log('Articulo no Encontrado')
           } else {
-            setDescripcionSelect(art.descripcion);
-            setArtDescripcion(art.descripcion);
-            setPrecioEstado(false);
-            setCantidadEstado(false);
-            refPrecioU.current.select();
+            setDescripcionSelect(art.descripcion)
+            setArtDescripcion(art.descripcion)
+            setPrecioEstado(false)
+            setCantidadEstado(false)
+            refPrecioU.current.select()
           }
         } else {
-          refDescripcion.current.focus();
+          refDescripcion.current.focus()
         }
       } else {
-        console.log("Error seleccione bodega");
+        console.log('Error seleccione bodega')
       }
     }
 
-    if (item.id === "precioUnt") {
+    if (item.id === 'precioUnt') {
       if (precio > 0) {
-        settotalArticulo(precio);
-        refCantidad.current.select();
+        settotalArticulo(precio)
+        refCantidad.current.select()
       } else {
-        console.log("el precio no puede ser 0");
+        console.log('el precio no puede ser 0')
       }
     }
 
-    if (item.id === "cantidad") {
+    if (item.id === 'cantidad') {
       if (totalArticulo > 0) {
         const resp = agregarDatos(
           { codigo, artDescripcion, cantidad, precio },
           idbodega
-        );
+        )
         if (resp) {
-          setBodegaEstado(true);
-          iniciarRegistro();
+          setBodegaEstado(true)
+          iniciarRegistro()
         }
       } else {
-        console.log("el precio o la cantidad no puede ser 0");
+        console.log('el precio o la cantidad no puede ser 0')
       }
     }
-  };
+  }
 
   return (
-    <Row align="middle" justify="center" gutter={16}>
+    <Row align='middle' justify='center' gutter={16}>
       <Col span={3}>
         <Text>Bodega:</Text>
         <Select
           onChange={onChangeBodegas}
-          defaultValue={"Seleccione..."}
+          defaultValue={'Seleccione...'}
           loading={cargandoParams}
           disabled={bodegaEstado}
         >
           {bodegas &&
-            bodegas.map((bodega) => {
-              return <Option key={bodega.id}>{bodega.nombre}</Option>;
+            bodegas.map(bodega => {
+              return <Option key={bodega.id}>{bodega.nombre}</Option>
             })}
         </Select>
       </Col>
@@ -162,7 +162,7 @@ function Encabezado({
           value={codigo}
           ref={refCodigo}
           disabled={codigoEstado}
-          id="codigo"
+          id='codigo'
         />
       </Col>
       <Col span={10}>
@@ -174,18 +174,20 @@ function Encabezado({
           showSearch
           labelInValue={false}
           value={artDescripcion}
-          optionFilterProp="children"
+          optionFilterProp='children'
           onSearch={onSearch}
           onChange={onChangeDescripcion}
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {articulos.map((articulo) => {
+          {articulos.map(articulo => {
             return (
-              <Option key={articulo.codigo}>{articulo.descripcion}</Option>
-            );
+              <Option key={articulo.codigo + '|' + articulo.descripcion}>
+                {articulo.descripcion}
+              </Option>
+            )
           })}
         </Select>
       </Col>
@@ -197,7 +199,7 @@ function Encabezado({
           disabled={precioEstado}
           onPressEnter={onPressEnter}
           value={precio}
-          id="precioUnt"
+          id='precioUnt'
         />
       </Col>
       <Col span={3}>
@@ -208,20 +210,20 @@ function Encabezado({
           onChange={onChange}
           disabled={cantidadEstado}
           onPressEnter={onPressEnter}
-          id="cantidad"
+          id='cantidad'
         />
       </Col>
       <Col span={3}>
         <Row>
-          <Text style={{ width: "100%" }}>Total:</Text>
+          <Text style={{ width: '100%' }}>Total:</Text>
         </Row>
         <Row>
-          <Text style={{ width: "100%", textAlign: "end" }}>
+          <Text style={{ width: '100%', textAlign: 'end' }}>
             {totalArticulo}
           </Text>
         </Row>
       </Col>
     </Row>
-  );
+  )
 }
-export default Encabezado;
+export default Encabezado

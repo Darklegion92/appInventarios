@@ -501,6 +501,7 @@ function FacturasVentas() {
           cargarClientes={cargarClientes}
           datosDescripcion={datosDescripcion}
           cargando={cargando}
+          articulo={articulo}
           traerArticulo={traerArticulo}
           cargarArticulos={cargarArticulos}
           setValorTotal={setValorTotal}
