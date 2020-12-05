@@ -192,7 +192,7 @@ function Encabezado ({
         </Select>
       </Col>
       <Col span={3}>
-        <Text>Precio Und:</Text>
+        <Text>Precio Compra:</Text>
         <Input
           onChange={onChange}
           ref={refPrecioU}
