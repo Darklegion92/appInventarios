@@ -137,6 +137,8 @@ function Encabezado (props) {
   }
 
   const onPressEnterCantidad = e => {
+    console.log(articulo)
+    console.log(cantidad)
     if (articulo.stock >= cantidad) {
       if (valorTotal > 0) {
         if (guardarTabla()) {

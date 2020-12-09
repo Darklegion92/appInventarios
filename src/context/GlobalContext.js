@@ -12,6 +12,24 @@ const GlobalProvider = ({ children }) => {
   const [articulos, setArticulos] = useState([])
   const [seleccion, setSeleccion] = useState(0)
   const [usuarios, setUsuarios] = useState([])
+  const [prefijo, setPrefijo] = useState()
+  const [numero, setNumero] = useState()
+
+  const cargarNumeracion = async usuario => {
+    const datos = await axios.get(
+      API + 'parametros/facturasventa/numero/' + usuario.idsucursal,
+      {
+        headers: {
+          authorization: sessionStorage.getItem('Token')
+        }
+      }
+    )
+
+    if (datos.status === 200) {
+      setNumero(datos.data.numero)
+      setPrefijo(datos.data.prefijo)
+    }
+  }
 
   const cargarParametros = async (token, usuario) => {
     //cargar bodegas
@@ -30,6 +48,7 @@ const GlobalProvider = ({ children }) => {
     if (datos.status === 200) {
       setSucursales(datos.data)
       constultarUsuarios()
+      cargarNumeracion(usuario)
     }
   }
 
@@ -201,7 +220,10 @@ const GlobalProvider = ({ children }) => {
         setSucursales,
         registrarUsuario,
         articulosDescripcion,
-        guardarEntrada
+        guardarEntrada,
+        prefijo,
+        numero,
+        cargarNumeracion
       }}
     >
       {children}

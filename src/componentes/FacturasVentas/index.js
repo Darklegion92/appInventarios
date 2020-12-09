@@ -22,7 +22,6 @@ function FacturasVentas () {
   const [documento, setDocumento] = useState()
   const [descripcion, setDescripcion] = useState()
   const [cantidad, setCantidad] = useState(1)
-  const [numero, setNumero] = useState()
   const [nombre, setNombre] = useState()
   const [valorUni, setValorUni] = useState(0)
   const [valorTotal, setValorTotal] = useState(0)
@@ -48,13 +47,15 @@ function FacturasVentas () {
   const [msgConfirmacion, setMsgConfirmacion] = useState()
   const [modalConfirmacion, setModalConformacion] = useState(false)
   const [modalAlerta, setModalAlerta] = useState(false)
-  const [prefijo, setPrefijo] = useState()
+
   const [disableok, setDisableok] = useState(false)
   const [cambio, setCambio] = useState(0)
   const [recibido, setRecibido] = useState(0)
   const [facturaNumero, setFacturaNumero] = useState()
 
-  const { usuario } = useContext(GlobalContext)
+  const { prefijo, numero, cargarNumeracion, usuario } = useContext(
+    GlobalContext
+  )
 
   const formato = new Intl.NumberFormat('es-Es')
 
@@ -129,7 +130,7 @@ function FacturasVentas () {
 
   const handleOkAlerta = () => {
     setModalAlerta(false)
-    cargarDatos()
+    cargarNumeracion(usuario)
   }
 
   const handledCancelAlerta = () => {
@@ -210,7 +211,6 @@ function FacturasVentas () {
     setDocumento()
     setDescripcion()
     setCantidad(1)
-    setNumero()
     setNombre()
     setValorUni(0)
     setValorTotal(0)
@@ -223,7 +223,7 @@ function FacturasVentas () {
     setTotalIVA(0)
     settotalFactura(0)
     setArticulos()
-    cargarDatos()
+    cargarNumeracion(usuario)
     setCambio(0)
     setRecibido(0)
     setdisabledNombre(false)
@@ -256,21 +256,6 @@ function FacturasVentas () {
     alertaAdvertencia('Se Elimino', 'Se Eliminó El Artículo')
   }
 
-  const cargarDatos = async () => {
-    const datos = await axios.get(
-      API + 'parametros/facturasventa/numero/' + usuario.idsucursal,
-      {
-        headers: {
-          authorization: sessionStorage.getItem('Token')
-        }
-      }
-    )
-
-    if (datos.status === 200) {
-      setNumero(datos.data.numero)
-      setPrefijo(datos.data.prefijo)
-    }
-  }
   /*Alertas */
   const alertaError = (titulo, msg) => {
     setDisableok(true)
@@ -428,10 +413,6 @@ function FacturasVentas () {
       return false
     }
   }
-
-  useEffect(() => {
-    cargarDatos()
-  }, [])
 
   const traerCliente = async documento => {
     const datos = await axios.get(API + 'clientes/' + documento, {
