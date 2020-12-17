@@ -39,13 +39,15 @@ import "./App.css";
 import "antd/dist/antd.css";
 
 function App() {
-  const { seleccion, setSeleccion, usuario } = useContext(GlobalContext);
-  const [nombre, setNombre] = useState();
+  const { seleccion, setSeleccion, usuario, setUsuario } = useContext(
+    GlobalContext
+  );
   const [modalCierre, setModalCierre] = useState(true);
   const [recaudo, setRecaudo] = useState(0);
   const [ventas, setVentas] = useState(0);
   const [modalAlerta, setModalAlerta] = useState(false);
   const componentRef = useRef();
+
   const handleOk = async () => {
     const ventas = await traerVentas();
     setVentas(ventas);
@@ -90,6 +92,7 @@ function App() {
   };
   if (seleccion === "salir") {
     setSeleccion(0);
+    setUsuario(null);
     sessionStorage.clear();
     localStorage.clear();
   }
@@ -98,55 +101,65 @@ function App() {
       {!usuario && <Login />}
       {usuario && (
         <Encabezado
-          nombre={nombre}
+          nombre={usuario.asignacion}
           setSeleccion={setSeleccion}
-          datos={[
-            {
-              titulo: "Facturación",
-              lista: [
-                "Facturar",
-                "Devoluciones",
-                "Informes",
-                "Parámetros",
-                "Cierre Diario",
-              ],
-              icon: <ShoppingCartOutlined />,
-            },
-            {
-              titulo: "Compras",
-              lista: [
-                "Facturar",
-                "Devoluciones",
-                "Orden de Pedido",
-                "Informes",
-                "Proveedores",
-              ],
-              icon: <ShopOutlined />,
-            },
-            {
-              titulo: "Inventarios",
-              lista: [
-                "Entradas",
-                "Salidas",
-                "Ajustes",
-                "Agrupaciones",
-                "Artículos",
-                "Informes",
-                "Párametros",
-              ],
-              icon: <ContainerOutlined />,
-            },
-            {
-              titulo: "CRM",
-              lista: ["Clientes", "Informes"],
-              icon: <BarChartOutlined />,
-            },
-            {
-              titulo: "Configuración",
-              lista: ["Usuarios"],
-              icon: <SettingFilled />,
-            },
-          ]}
+          datos={
+            usuario.idrol === 1
+              ? [
+                  {
+                    titulo: "Facturación",
+                    lista: [
+                      "Facturar",
+                      "Devoluciones",
+                      "Informes",
+                      "Parámetros",
+                      "Cierre Diario",
+                    ],
+                    icon: <ShoppingCartOutlined />,
+                  },
+                  {
+                    titulo: "Compras",
+                    lista: [
+                      "Facturar",
+                      "Devoluciones",
+                      "Orden de Pedido",
+                      "Informes",
+                      "Proveedores",
+                    ],
+                    icon: <ShopOutlined />,
+                  },
+                  {
+                    titulo: "Inventarios",
+                    lista: [
+                      "Entradas",
+                      "Salidas",
+                      "Ajustes",
+                      "Agrupaciones",
+                      "Artículos",
+                      "Informes",
+                      "Párametros",
+                    ],
+                    icon: <ContainerOutlined />,
+                  },
+                  {
+                    titulo: "CRM",
+                    lista: ["Clientes", "Informes"],
+                    icon: <BarChartOutlined />,
+                  },
+                  {
+                    titulo: "Configuración",
+                    lista: ["Usuarios"],
+                    icon: <SettingFilled />,
+                  },
+                ]
+              : [
+                  {
+                    titulo: "Facturación",
+                    lista: ["Facturar"],
+                    icon: <ShoppingCartOutlined />,
+                  },
+                ]
+          }
         />
       )}
       {usuario && seleccion === 0 && <Index />}

@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Select, Button } from "antd";
 
 const { Option } = Select;
-function FormularioUsuario({ datosUsuario, sucursales, onFinish }) {
+function FormularioUsuario({ datosUsuario, sucursales, onFinish, roles }) {
   return (
     <Form
       layout="vertical"
@@ -13,7 +13,16 @@ function FormularioUsuario({ datosUsuario, sucursales, onFinish }) {
           ? [
               { name: "usuario", value: datosUsuario.usuario },
               { name: "nombre", value: datosUsuario.nombre },
-              { name: "sucursal", value: datosUsuario.nombresucursal, key: 0 },
+              {
+                name: "sucursal",
+                value: datosUsuario.nombresucursal,
+                key: datosUsuario.idsucursal,
+               },
+              {
+                name: "rol",
+                value: datosUsuario.nombrerol,
+                key: datosUsuario.idrol,
+              },
             ]
           : []
       }
@@ -56,6 +65,17 @@ function FormularioUsuario({ datosUsuario, sucursales, onFinish }) {
         <Select>
           {sucursales.map((sucursal) => {
             return <Option key={sucursal.id}>{sucursal.nombre}</Option>;
+          })}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        name="rol"
+        label="Rol"
+        rules={[{ required: true, message: "Debe elegir un rol válida" }]}
+      >
+        <Select>
+          {roles.map((rol) => {
+            return <Option key={rol.idrol}>{rol.nombre}</Option>;
           })}
         </Select>
       </Form.Item>

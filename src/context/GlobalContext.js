@@ -12,6 +12,7 @@ const GlobalProvider = ({ children }) => {
   const [articulos, setArticulos] = useState([]);
   const [seleccion, setSeleccion] = useState(0);
   const [usuarios, setUsuarios] = useState([]);
+  const [roles, setRoles] = useState([]);
 
   const cargarParametros = async (token, usuario) => {
     //cargar bodegas
@@ -26,6 +27,16 @@ const GlobalProvider = ({ children }) => {
     if (respBodegas.status === 200) {
       setBodegas(respBodegas.data);
     }
+
+    const respRoles = await axios.get(API + "parametros/roles", {
+      headers: {
+        authorization: token,
+      },
+    });
+    if (respBodegas.status === 200) {
+      setRoles(respRoles.data);
+    }
+
     const datos = await axios.get(API + "parametros/sucursales");
     if (datos.status === 200) {
       setSucursales(datos.data);
@@ -120,8 +131,8 @@ const GlobalProvider = ({ children }) => {
   const registrarUsuario = async (newUser, user) => {
     const token = localStorage.getItem("Token");
     let json = {};
-    console.log(user);
-    if (user !== null) {
+
+    if (user.rol) {
       json = await axios.put(
         API + "actualizar",
         { newUser, user },
@@ -177,12 +188,14 @@ const GlobalProvider = ({ children }) => {
         seleccion,
         login,
         usuario,
+        setUsuario,
         usuarios,
         sucursales,
         setSucursales,
         registrarUsuario,
         articulosDescripcion,
         guardarEntrada,
+        roles,
       }}
     >
       {children}

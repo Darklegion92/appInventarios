@@ -26,10 +26,18 @@ const cols = [
     dataIndex: "nombresucursal",
     key: "nombresucursal",
   },
+  ,
+  {
+    title: "Rol",
+    dataIndex: "nombrerol",
+    key: "nombrerol",
+  },
 ];
 
 function GestionUsuarios() {
-  const { usuarios, sucursales, registrarUsuario } = useContext(GlobalContext);
+  const { usuarios, sucursales, registrarUsuario, roles } = useContext(
+    GlobalContext
+  );
   const [usuario, setUsuario] = useState(null);
   const [modal, setModal] = useState({ visible: false });
 
@@ -41,7 +49,7 @@ function GestionUsuarios() {
   };
 
   const onClick = () => {
-    setUsuario(null);
+    setUsuario({});
     setModal({ titulo: "CREAR USUARIO", visible: true });
   };
 
@@ -94,6 +102,7 @@ function GestionUsuarios() {
           sucursales={sucursales}
           onFinish={onFinish}
           datosUsuario={usuario}
+          roles={roles}
         />
       </Modal>
     </Col>

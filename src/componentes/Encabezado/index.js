@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Avatar, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-
 import "./styles.css";
 
 const { SubMenu } = Menu;
@@ -9,7 +8,6 @@ const { Text } = Typography;
 
 export default function Encabezado(props) {
   const [current, setCurrent] = useState();
-
   const { datos, setSeleccion, nombre } = props;
 
   const handleClick = (e) => {
