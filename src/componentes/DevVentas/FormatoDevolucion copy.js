@@ -7,6 +7,10 @@ export default class FormatoFactura extends React.Component {
     return (
       <div className="formato-devolucion">
         <div className="encabezado">
+          <div>PREMIUN SHOP CARNICERIA Y CHARCUTERIA</div>
+          <div>NIT. 88215368</div>
+          <div>Calle 35 #3-50 SABANA, PATIOS</div>
+          <div>Telf. 3125920184</div>
           <div>DEVOLUCÓN EN VENTA</div>
         </div>
         <div className="cuerpo">

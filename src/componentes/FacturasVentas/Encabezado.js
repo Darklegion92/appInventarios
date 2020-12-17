@@ -1,12 +1,12 @@
-﻿import React, { useRef } from "react";
-import { Input, Col, Row, Typography, Select } from "antd";
-import InputText from "../InputText";
-import InputNumber from "../InputNumber";
+﻿import React, { useRef } from 'react'
+import { Input, Col, Row, Typography, Select } from 'antd'
+import InputText from '../InputText'
+import InputNumber from '../InputNumber'
 
-const { Text } = Typography;
+const { Text } = Typography
 
-const { Option } = Select;
-function Encabezado(props) {
+const { Option } = Select
+function Encabezado (props) {
   const {
     codigo,
     setCodigo,
@@ -39,136 +39,146 @@ function Encabezado(props) {
     setdisabledDocumento,
     setdisabledCantidad,
     disabledDescripcion,
-    disabledCodigo,
+    articulo,
     disabledDocumento,
     disabledCantidad,
     disabledNombre,
     setdisabledNombre,
-    alertaError,
-  } = props;
+    alertaError
+  } = props
 
-  const refCodigo = useRef(null);
-  const refDocumento = useRef(null);
-  const refNombres = useRef(null);
-  const refDescripcion = useRef(null);
-  const refCantidad = useRef(null);
+  const refCodigo = useRef(null)
+  const refDocumento = useRef(null)
+  const refNombres = useRef(null)
+  const refDescripcion = useRef(null)
+  const refCantidad = useRef(null)
 
   /*Funcional */
-  const onPressEnterDocumento = async (e) => {
-    const documento = e.target.value;
+  const onPressEnterDocumento = async e => {
+    const documento = e.target.value
     if (documento) {
-      const resp = await traerCliente(documento);
+      const resp = await traerCliente(documento)
       if (resp) {
-        setdisabledNombre(true);
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
-        refCodigo.current.select();
+        setdisabledNombre(true)
+        setdisabledCodigo(false)
+        setdisabledDescripcion(false)
+        refCodigo.current.select()
       } else {
-        setdisabledCodigo(false);
-        setdisabledDescripcion(false);
+        setdisabledCodigo(false)
+        setdisabledDescripcion(false)
       }
     } else {
-      setdisabledNombre(false);
-      setdisabledDocumento(true);
-      refNombres.current.focus();
+      setdisabledNombre(false)
+      setdisabledDocumento(true)
+      refNombres.current.focus()
     }
-  };
+  }
 
-  const onChangeNombre = (e) => {
+  const onChangeNombre = e => {
     if (e.key) {
-      asignarDocumento(e.key);
-      traerCliente(e.key);
-      setNombre(e);
-      setdisabledCodigo(false);
-      setdisabledDescripcion(false);
-      refCodigo.current.select();
+      asignarDocumento(e.key)
+      traerCliente(e.key)
+      setNombre(e)
+      setdisabledCodigo(false)
+      setdisabledDescripcion(false)
+      refCodigo.current.select()
     } else {
-      setdisabledCodigo(false);
-      setdisabledDescripcion(true);
-      refDocumento.current.select();
+      setdisabledCodigo(false)
+      setdisabledDescripcion(true)
+      refDocumento.current.select()
     }
-  };
+  }
 
-  const onSearchNombre = (e) => {
-    cargarClientes(e.toUpperCase());
-  };
+  const onSearchNombre = e => {
+    cargarClientes(e.toUpperCase())
+  }
 
-  const onPressEnterCodigo = async (e) => {
-    const codigo = e.target.value;
+  const onPressEnterCodigo = async e => {
+    const codigo = e.target.value
     if (codigo) {
-      const res = await traerArticulo(codigo);
+      const res = await traerArticulo(codigo)
       if (res === true) {
-        setdisabledDescripcion(true);
-        setdisabledCantidad(false);
-        refCantidad.current.select();
+        setdisabledDescripcion(true)
+        setdisabledCantidad(false)
+        refCantidad.current.select()
       }
     } else {
-      setdisabledDescripcion(false);
-      setdisabledCodigo(true);
-      refDescripcion.current.focus();
+      setdisabledDescripcion(false)
+      setdisabledCodigo(true)
+      refDescripcion.current.focus()
     }
-  };
+  }
 
-  const onSearchDescripcion = (e) => {
-    cargarArticulos(e.toUpperCase());
-  };
+  const onSearchDescripcion = e => {
+    cargarArticulos(e.toUpperCase())
+  }
 
-  const onChangeDescripcion = (e) => {
-    asignarCodigo(e.key);
-    setDescripcion(e);
-    refCantidad.current.select();
-  };
+  const onChangeDescripcion = e => {
+    asignarCodigo(e.key)
+    setDescripcion(e)
+    refCantidad.current.select()
+  }
 
-  const onChangeValorUni = (e) => {
-    console.log(e);
-    setValorUni(e);
-    setdisabledCantidad(false);
-    setValorTotal(1 * e);
-  };
+  const onChangeValorUni = e => {
+    console.log(e)
+    setValorUni(e)
+    setdisabledCantidad(false)
+    setValorTotal(1 * e)
+  }
 
-  const onChangeCantidad = (e) => {
-    const cant = e.target.value;
-    setCantidad(cant);
+  const onChangeCantidad = e => {
+    const cant = e.target.value
+    setCantidad(cant)
     if (cant > 0 && valorUni > 0) {
-      setValorTotal(cant * valorUni);
+      setValorTotal(cant * valorUni)
     } else {
-      setValorTotal(0);
+      setValorTotal(0)
     }
-  };
+  }
 
-  const onPressEnterCantidad = (e) => {
-    if (valorTotal > 0) {
-      if (guardarTabla()) {
-        refCodigo.current.select();
-        nuevoarticulo();
-        refCodigo.current.select();
+  const onPressEnterCantidad = e => {
+    console.log(articulo)
+    console.log(cantidad)
+    if (articulo.stock >= cantidad) {
+      if (valorTotal > 0) {
+        if (guardarTabla()) {
+          refCodigo.current.select()
+          nuevoarticulo()
+          refCodigo.current.select()
+        }
+      } else {
+        alertaError(
+          'Cantidad o Precio Erroneos',
+          'La Cantidad o El Precio No Pueden Ser 0'
+        )
+        setdisabledDescripcion(false)
+        setdisabledCodigo(true)
       }
     } else {
+      const cantidad = articulo.stock ? articulo.stock : 0
       alertaError(
-        "Cantidad o Precio Erroneos",
-        "La Cantidad o El Precio No Pueden Ser 0"
-      );
-      setdisabledDescripcion(false);
-      setdisabledCodigo(true);
+        'Stock Insuficiente',
+        'La cantidad supera el stock: ' + cantidad
+      )
     }
-  };
+  }
 
   const nuevoarticulo = () => {
-    setdisabledDescripcion(false);
-    setdisabledCodigo(false);
-    setdisabledDocumento(true);
-    setdisabledNombre(true);
-    setCodigo("");
-    setDescripcion([]);
-    setCantidad(1);
-    setValorTotal(0);
-    setValorUni(0);
-    refCodigo.current.select();
-  };
+    setdisabledDescripcion(false)
+    setdisabledCodigo(false)
+    setdisabledDocumento(true)
+    setdisabledNombre(true)
+    setCodigo('')
+    setDescripcion([])
+    setCantidad(1)
+    setValorTotal(0)
+    setValorUni(0)
+    refCodigo.current.select()
+  }
 
-  const onChangeCodigo = (e) => {
-    setCodigo(e.target.value);
-  };
+  const onChangeCodigo = e => {
+    setCodigo(e.target.value)
+  }
 
   return (
     <div>
@@ -176,17 +186,17 @@ function Encabezado(props) {
         <Row gutter={10}>
           <Col span={2}>
             <InputText
-              text="Prefijo"
+              text='Prefijo'
               value={prefijo}
-              size={{ width: "100%" }}
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
           <Col span={3}>
             <InputText
-              text="Número"
+              text='Número'
               value={numero}
-              size={{ width: "100%" }}
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
@@ -196,9 +206,9 @@ function Encabezado(props) {
               value={documento}
               disabled={disabledDocumento}
               onPressEnter={onPressEnterDocumento}
-              placeholder="Documento"
-              size="small"
-              style={{ width: "100%" }}
+              placeholder='Documento'
+              size='small'
+              style={{ width: '100%' }}
               allowClear
               ref={refDocumento}
             />
@@ -208,21 +218,21 @@ function Encabezado(props) {
             <Select
               disabled={disabledNombre}
               showSearch
-              placeholder="Nombre"
-              optionFilterProp="children"
+              placeholder='Nombre'
+              optionFilterProp='children'
               labelInValue={true}
               value={nombre}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               onChange={onChangeNombre}
-              size="small"
+              size='small'
               onSearch={onSearchNombre}
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
               ref={refNombres}
             >
-              {datosNombre.map((dato) => {
-                return <Option key={dato.id}>{dato.dato}</Option>;
+              {datosNombre.map(dato => {
+                return <Option key={dato.id}>{dato.dato}</Option>
               })}
             </Select>
           </Col>
@@ -234,9 +244,9 @@ function Encabezado(props) {
               value={codigo}
               onChange={onChangeCodigo}
               onPressEnter={onPressEnterCodigo}
-              placeholder="Código"
-              size="small"
-              style={{ width: "100%" }}
+              placeholder='Código'
+              size='small'
+              style={{ width: '100%' }}
               allowClear
               ref={refCodigo}
             />
@@ -246,21 +256,21 @@ function Encabezado(props) {
             <Select
               disabled={disabledDescripcion}
               showSearch
-              placeholder="Decripción"
-              optionFilterProp="children"
+              placeholder='Decripción'
+              optionFilterProp='children'
               labelInValue={true}
               value={descripcion}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               onChange={onChangeDescripcion}
-              size="small"
+              size='small'
               onSearch={onSearchDescripcion}
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
               ref={refDescripcion}
             >
-              {datosDescripcion.map((dato) => {
-                return <Option key={dato.id}>{dato.dato}</Option>;
+              {datosDescripcion.map(dato => {
+                return <Option key={dato.id}>{dato.dato}</Option>
               })}
             </Select>
           </Col>
@@ -268,9 +278,9 @@ function Encabezado(props) {
             <Text>Valor Un.</Text>
             <Input
               disabled={true}
-              placeholder="Valor Un."
-              size="small"
-              style={{ width: "100%" }}
+              placeholder='Valor Un.'
+              size='small'
+              style={{ width: '100%' }}
               value={valorUni}
               allowClear
               onChange={onChangeValorUni}
@@ -279,10 +289,10 @@ function Encabezado(props) {
           <Col span={3}>
             <Text>Cantidad</Text>
             <Input
-              placeholder="Cantidad"
+              placeholder='Cantidad'
               value={cantidad}
-              size="small"
-              style={{ width: "100%" }}
+              size='small'
+              style={{ width: '100%' }}
               onChange={onChangeCantidad}
               onPressEnter={onPressEnterCantidad}
               allowClear
@@ -292,14 +302,14 @@ function Encabezado(props) {
           <Col span={4}>
             <InputNumber
               value={valorTotal}
-              text="Total"
-              size={{ width: "100%" }}
+              text='Total'
+              size={{ width: '100%' }}
               disabled={true}
             />
           </Col>
         </Row>
       </Input.Group>
     </div>
-  );
+  )
 }
-export default Encabezado;
+export default Encabezado
